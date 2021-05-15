@@ -2,6 +2,18 @@
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
+	font: inherit;
+}
+
+:root {
+	--white-100: #fafafa;
+	--white-200: #e5e4e6;
+	--dark-100: #273639;
+	--primary: #430bd8;
+}
+
+body {
+	font-family: 'Nunito', 'Helvetica', 'Arial', sans-serif;
 }
 
 canvas {
@@ -10,4 +22,70 @@ canvas {
 	left: 0;
 	width: 100%;
 	height: 100%;
+}
+
+.tools-container {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	z-index: 1;
+
+	background-color: var(--white-100);
+	text-align: center;
+	padding: 1em 2em;
+	border-right: 1px solid var(--white-200);
+	box-shadow: 0.5em 0 2em rgba(0, 0, 0, 0.15);
+}
+
+.tools {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+h2 {
+	font-weight: 700;
+	font-size: 1.5em;
+	margin-bottom: 0.5em;
+}
+
+button {
+	width: 3em;
+	height: 3em;
+	background-color: var(--dark-100);
+	color: var(--white-100);
+	margin-bottom: 0.25em;
+	border: 2px solid var(--dark-100);
+	border-radius: 0.5em;
+	position: relative;
+}
+
+button:hover {
+	background-color: var(--white-100);
+	color: var(--dark-100);
+}
+
+button:active {
+	background-color: var(--white-200);
+}
+
+span {
+	position: absolute;
+	top: 0;
+	display: none;
+	color: var(--white-100);
+	background: var(--primary);
+	font-size: 0.75em;
+	padding: 1em 2em;
+	z-index: 1;
+}
+
+button:hover span,
+.input-container:hover span {
+	display: inline;
+}
+
+.input-container {
+	position: relative;
 }

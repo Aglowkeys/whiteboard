@@ -4,11 +4,38 @@
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link rel="stylesheet" href="styles.css" />
+		<link
+			rel="stylesheet"
+			href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+			integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p"
+			crossorigin="anonymous"
+		/>
+		<link rel="preconnect" href="https://fonts.gstatic.com" />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;700&display=swap"
+			rel="stylesheet"
+		/>
 		<script defer src="scripts.js"></script>
 		<title>Whiteboard</title>
 	</head>
 	<body>
-		<section id="tools" class="tools"></section>
+		<section id="tools" class="tools-container">
+			<h2>Herramientas</h2>
+			<div class="tools">
+				<button><i class="fas fa-paint-brush"></i><span>Pincel</span></button>
+				<button><i class="fas fa-eraser"></i><span>Borrador</span></button>
+				<button><i class="fas fa-rainbow"></i><span>Arcoiris</span></button>
+				<button><i class="fas fa-question"></i><span>Color al azar</span></button>
+				<div class="input-container">
+					<input type="color" />
+					<span>Seleccionar color</span>
+				</div>
+				<div class="input-container">
+					<input type="range" min="5" max="50" />
+					<span>Cambiar tamaño</span>
+				</div>
+			</div>
+		</section>
 		<canvas id="canvas"></canvas>
 	</body>
 </html>
