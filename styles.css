@@ -47,45 +47,82 @@ canvas {
 h2 {
 	font-weight: 700;
 	font-size: 1.5em;
-	margin-bottom: 0.5em;
+	margin-bottom: 1em;
+	padding-bottom: 0.5em;
+	border-bottom: 1px solid var(--white-200);
 }
 
 button {
 	width: 3em;
 	height: 3em;
-	background-color: var(--dark-100);
+	background-color: var(--primary);
 	color: var(--white-100);
 	margin-bottom: 0.25em;
-	border: 2px solid var(--dark-100);
+	border: 2px solid var(--primary);
 	border-radius: 0.5em;
 	position: relative;
+	transition: background-color 200ms ease;
 }
 
 button:hover {
 	background-color: var(--white-100);
-	color: var(--dark-100);
+	color: var(--primary);
 }
 
 button:active {
 	background-color: var(--white-200);
 }
 
-span {
+span:not(.brush-size) {
 	position: absolute;
-	top: 0;
-	display: none;
-	color: var(--white-100);
-	background: var(--primary);
-	font-size: 0.75em;
-	padding: 1em 2em;
+	top: 50%;
+	left: calc(100% + 1em);
 	z-index: 1;
+
+	transform: translate(-1em, -50%);
+	opacity: 0;
+	user-select: none;
+	pointer-events: none;
+
+	color: var(--white-100);
+	background: var(--dark-100);
+	font-size: 0.75em;
+	padding: 0.5em 1em;
+	width: 7em;
+	border-radius: 0.5em;
+	transition: 0.2s ease;
 }
 
 button:hover span,
 .input-container:hover span {
-	display: inline;
+	transform: translate(0, -50%);
+	opacity: 1;
+}
+
+.input-container:nth-of-type(2):active span {
+	opacity: 0;
 }
 
 .input-container {
 	position: relative;
+}
+
+input[type='color'] {
+	appearance: none;
+	border: none;
+	width: 3em;
+	height: 3em;
+	overflow: hidden;
+	border-radius: 0.5em;
+}
+
+input[type='range'] {
+	max-width: 10em;
+}
+
+.brush-size {
+	display: block;
+	font-weight: 700;
+	color: var(--primary);
+	pointer-events: none;
 }
