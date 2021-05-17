@@ -22,19 +22,36 @@
 		<section id="tools" class="tools-container">
 			<h2>Herramientas</h2>
 			<div class="tools">
-				<button><i class="fas fa-paint-brush"></i><span>Pincel</span></button>
-				<button><i class="fas fa-eraser"></i><span>Borrador</span></button>
-				<button><i class="fas fa-rainbow"></i><span>Arcoiris</span></button>
-				<button><i class="fas fa-question"></i><span>Color al azar</span></button>
+				<button id="btn-brush">
+					<i class="fas fa-paint-brush"></i><span>Pincel</span>
+				</button>
+				<button id="btn-eraser"><i class="fas fa-eraser"></i><span>Borrador</span></button>
+				<button id="btn-rainbow">
+					<i class="fas fa-rainbow"></i><span>Arcoiris</span>
+				</button>
+				<button id="btn-random">
+					<i class="fas fa-question"></i><span>Color al azar</span>
+				</button>
 				<div class="input-container">
-					<input type="color" />
+					<input id="btn-color" type="color" autocomplete="off" />
 					<span>Seleccionar color</span>
 				</div>
 				<div class="input-container">
-					<input type="range" min="5" max="50" class="input-range" value="5" />
+					<input
+						id="btn-size"
+						type="range"
+						min="5"
+						max="50"
+						class="input-range"
+						value="5"
+						autocomplete="off"
+					/>
 					<span>Cambiar tamaño</span>
 				</div>
-				<span class="brush-size">5px</span>
+				<span class="brush-size">10px</span>
+				<button id="btn-clear">
+					<i class="far fa-file"></i> <span>Limpiar pizarra</span>
+				</button>
 			</div>
 		</section>
 		<canvas id="canvas"></canvas>
