@@ -14,6 +14,7 @@ const coords = {
 };
 
 let radius = 5; // para el input range
+let prevColor = '#000'; // para no perder el color previamente seleccionado al elegir el borrador
 let color = '#000'; // para el selector de color
 let hue = 15; // para el input rainbow
 let rainbowColor = `hsl(${hue}, 80%, 70%)`;
@@ -47,9 +48,15 @@ const [inputColor, inputRange] = document.querySelectorAll('input');
 const brushSize = document.querySelector('.brush-size');
 
 // Pincel
+btnBrush.addEventListener('click', () => {
+	color = prevColor;
+});
 
 // Borrador
-btnEraser.addEventListener('click', () => {});
+btnEraser.addEventListener('click', () => {
+	prevColor = color;
+	color = 'white';
+});
 
 // Selector de color
 inputColor.addEventListener('change', (ev) => {
@@ -68,4 +75,10 @@ btnRandom.addEventListener('click', () => {
 inputRange.addEventListener('input', (ev) => {
 	brushSize.innerText = ev.target.value * 2 + 'px';
 	radius = ev.target.value;
+});
+
+// Limpiar pizarra
+btnClear.addEventListener('click', () => {
+	ctx.fillStyle = 'white';
+	ctx.fillRect(0, 0, canvas.width, canvas.height);
 });
