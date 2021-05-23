@@ -79,15 +79,23 @@ const getRandomColor = () => {
 const [btnBrush, btnEraser, btnRainbow, btnRandom, btnClear] = document.querySelectorAll('button');
 const [inputColor, inputRange] = document.querySelectorAll('input');
 const brushSize = document.querySelector('.brush-size');
+let current = btnBrush; // nuestra herramienta activa
+const updateCurrent = (elem) => {
+	current.className = '';
+	current = elem;
+	current.className = 'active';
+};
 
 // Pincel
-btnBrush.addEventListener('mousedown', (ev) => {
+btnBrush.addEventListener('click', () => {
+	updateCurrent(btnBrush);
 	isRainbow = false;
 	color = inputColor.value || 'black';
 });
 
 // Borrador
 btnEraser.addEventListener('click', () => {
+	updateCurrent(btnEraser);
 	isRainbow = false;
 	color = 'white';
 });
@@ -99,6 +107,7 @@ inputColor.addEventListener('change', (ev) => {
 
 // Arcoiris
 btnRainbow.addEventListener('click', () => {
+	updateCurrent(btnRainbow);
 	isRainbow = true;
 });
 
