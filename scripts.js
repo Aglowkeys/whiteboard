@@ -3,6 +3,11 @@ const ctx = canvas.getContext('2d');
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
+window.addEventListener('resize', () => {
+	canvas.width = window.innerWidth;
+	canvas.height = window.innerHeight;
+});
+
 const coords = {
 	x: null,
 	y: null,
@@ -41,11 +46,6 @@ const stopDrawing = () => {
 canvas.addEventListener('mousedown', beginDrawing);
 canvas.addEventListener('mouseup', stopDrawing);
 
-canvas.addEventListener('resize', () => {
-	canvas.width = window.innerWidth;
-	canvas.height = window.innerHeight;
-});
-
 let radius = 5; // para el input range
 let color = '#000'; // para el selector de color
 let hue = 15; // para el input rainbow
@@ -76,6 +76,7 @@ const getRandomColor = () => {
 	=== DOM TOOLS ===
 */
 
+const root = document.querySelector(':root');
 const [btnBrush, btnEraser, btnRainbow, btnRandom, btnClear] = document.querySelectorAll('button');
 const [inputColor, inputRange] = document.querySelectorAll('input');
 const brushSize = document.querySelector('.brush-size');
@@ -103,6 +104,7 @@ btnEraser.addEventListener('click', () => {
 // Selector de color
 inputColor.addEventListener('change', (ev) => {
 	color = ev.target.value;
+	root.style.setProperty('--current-color', ev.target.value);
 });
 
 // Arcoiris
@@ -115,6 +117,7 @@ btnRainbow.addEventListener('click', () => {
 btnRandom.addEventListener('click', () => {
 	getRandomColor();
 	inputColor.value = color;
+	root.style.setProperty('--current-color', color);
 });
 
 // Tamaño pincel

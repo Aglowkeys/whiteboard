@@ -11,6 +11,7 @@
 	--dark-100: #273639;
 	--dark-200: #3e4d50;
 	--primary: #430bd8;
+	--current-color: #000;
 }
 
 body {
@@ -57,7 +58,8 @@ h2 {
 	display: none;
 }
 
-button {
+button,
+.color {
 	width: 3rem;
 	height: 3rem;
 	background-color: var(--white-100);
@@ -71,12 +73,14 @@ button {
 	transition: background-color 200ms ease, box-shadow 300ms linear;
 }
 
-button:hover {
+button:hover,
+.color:hover {
 	background-color: var(--white-100);
 	color: var(--primary);
 }
 
-button:active {
+button:active,
+.color:active {
 	transform: scale(0.97);
 	transform-origin: bottom;
 }
@@ -96,7 +100,7 @@ button i {
 	transform: scale(1.4);
 }
 
-span:not(.brush-size) {
+.tooltip {
 	position: absolute;
 	top: 50%;
 	left: calc(100% + 1em);
@@ -116,13 +120,13 @@ span:not(.brush-size) {
 	transition: 0.2s ease;
 }
 
-button:hover span,
-.input-container:hover span {
+button:hover .tooltip,
+.input-container:hover .tooltip {
 	transform: translate(0, -50%);
 	opacity: 1;
 }
 
-.input-container:nth-of-type(2):active span {
+.input-container:nth-of-type(2):active .tooltip {
 	opacity: 0;
 }
 
@@ -131,11 +135,25 @@ button:hover span,
 }
 
 input[type='color'] {
-	appearance: none;
-	border: none;
 	width: 3em;
 	height: 3em;
-	overflow: hidden;
+	opacity: 0;
+}
+
+.fa-palette {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+.current-color {
+	position: absolute;
+	width: 1em;
+	height: 1em;
+	top: 0;
+	right: 0;
+	background-color: var(--current-color);
 	border-radius: 50%;
 }
 
