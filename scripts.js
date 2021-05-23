@@ -30,18 +30,18 @@ const draw = (ev) => {
 };
 
 const beginDrawing = (ev) => {
-	window.addEventListener('mousemove', draw);
+	canvas.addEventListener('mousemove', draw);
 	reposition(ev);
 };
 
 const stopDrawing = () => {
-	window.removeEventListener('mousemove', draw);
+	canvas.removeEventListener('mousemove', draw);
 };
 
-window.addEventListener('mousedown', beginDrawing);
-window.addEventListener('mouseup', stopDrawing);
+canvas.addEventListener('mousedown', beginDrawing);
+canvas.addEventListener('mouseup', stopDrawing);
 
-window.addEventListener('resize', () => {
+canvas.addEventListener('resize', () => {
 	canvas.width = window.innerWidth;
 	canvas.height = window.innerHeight;
 });
