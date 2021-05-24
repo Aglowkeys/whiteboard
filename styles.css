@@ -80,14 +80,14 @@ canvas {
 	transition: transform 200ms ease;
 }
 
-.active {
+.tools .active {
 	box-shadow: 0 5px 15px -10px rgba(0, 0, 0, 0.5), 0 -5px 10px white,
 		inset 0 -3px 5px var(--white-100), inset 0 0 10px rgba(0, 0, 0, 0.1),
 		0 0 0 5px var(--white-200);
 	color: var(--primary);
 }
 
-.active i {
+.tools .active i {
 	transform: scale(1.4);
 }
 
