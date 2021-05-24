@@ -52,19 +52,6 @@ let hue = 15; // para el input rainbow
 let isRainbow = false;
 let rainbowColor = `hsl(${hue}, 80%, 70%)`;
 
-// const drawCircle = () => {
-// 	ctx.fillStyle = color;
-// 	ctx.beginPath();
-// 	ctx.arc(coords.x, coords.y, radius, 0, Math.PI * 2);
-// 	ctx.fill();
-// };
-
-// window.addEventListener('mousedown', (ev) => {
-// 	coords.x = ev.x;
-// 	coords.y = ev.y;
-// 	drawCircle();
-// });
-
 const getRandomColor = () => {
 	// No puede ser en hsl porque uso este valor para
 	// reflejar el cambio también en el input type="color"
@@ -72,10 +59,9 @@ const getRandomColor = () => {
 	color = '#' + ((Math.random() * 0xffffff) << 0).toString(16).padStart(6, '0');
 };
 
-/* 
-	=== DOM TOOLS ===
-*/
-
+//
+// ========== DOM TOOLS ==========
+//
 const root = document.querySelector(':root');
 const [btnBrush, btnEraser, btnRainbow, btnRandom, btnClear] = document.querySelectorAll('button');
 const [inputColor, inputRange] = document.querySelectorAll('input');
@@ -130,4 +116,36 @@ inputRange.addEventListener('input', (ev) => {
 btnClear.addEventListener('click', () => {
 	ctx.fillStyle = 'white';
 	ctx.fillRect(0, 0, canvas.width, canvas.height);
+});
+
+//
+// ========== MODAL ==========
+//
+const btnInfo = document.getElementById('btn-info');
+const btnClose = document.getElementById('btn-close');
+const overlay = document.getElementById('modal-overlay');
+const modal = document.getElementById('modal');
+
+btnInfo.addEventListener('click', () => {
+	overlay.classList.add('visible');
+	modal.classList.add('visible');
+});
+
+btnClose.addEventListener('click', () => {
+	overlay.classList.remove('visible');
+	modal.classList.remove('visible');
+});
+
+overlay.addEventListener('click', (ev) => {
+	if (ev.target === overlay) {
+		overlay.classList.remove('visible');
+		modal.classList.remove('visible');
+	}
+});
+
+window.addEventListener('keydown', (ev) => {
+	if (ev.key === 'Escape') {
+		overlay.classList.remove('visible');
+		modal.classList.remove('visible');
+	}
 });

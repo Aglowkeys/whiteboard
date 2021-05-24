@@ -15,12 +15,12 @@
 			href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;700&display=swap"
 			rel="stylesheet"
 		/>
+		<link rel="shortcut icon" href="/img/favicon.png" type="image/x-icon" />
 		<script defer src="scripts.js"></script>
 		<title>Whiteboard</title>
 	</head>
 	<body>
 		<section id="tools" class="tools-container">
-			<h2>Herramientas</h2>
 			<div class="tools">
 				<button id="btn-brush">
 					<i class="fas fa-paint-brush"></i><span class="tooltip">Pincel</span>
@@ -53,11 +53,55 @@
 					<span class="tooltip">Cambiar tamaño</span>
 				</div>
 				<span class="brush-size">10px</span>
-				<button id="btn-clear">
+				<button id="btn-clear" class="btn-clear">
 					<i class="far fa-file"></i> <span class="tooltip">Limpiar pizarra</span>
+				</button>
+				<button id="btn-info">
+					<i class="fas fa-info"></i> <span class="tooltip">Información</span>
 				</button>
 			</div>
 		</section>
 		<canvas id="canvas"></canvas>
+		<div class="overlay" id="modal-overlay">
+			<div class="modal" id="modal">
+				<h1>Whiteboard</h1>
+				<p>
+					Este proyecto fue realizado por
+					<a
+						href="https://emiliano-alfonso.vercel.app/"
+						target="_blank"
+						rel="noopener noreferrer"
+						>Emiliano Alfonso</a
+					>, utilizando HTML, CSS y Javascript puro.
+				</p>
+				<h2>Contacto:</h2>
+				<p>
+					Mi correo electrónico es
+					<a href="mailto:emilianoalfonso1989@gmail.com">emilianoalfonso1989@gmail.com</a>
+					o me puedes encontrar en las siguientes redes:
+				</p>
+				<ul class="social">
+					<li>
+						<a
+							href="https://www.linkedin.com/in/emiliano-alfonso/"
+							target="_blank"
+							rel="noopener noreferrer"
+							><i class="fab fa-linkedin-in"></i
+						></a>
+						<span>LinkedIn</span>
+					</li>
+					<li>
+						<a
+							href="https://github.com/Aglowkeys/"
+							target="_blank"
+							rel="noopener noreferrer"
+							><i class="fab fa-github"></i
+						></a>
+						<span>Github</span>
+					</li>
+				</ul>
+				<button class="btn-close" id="btn-close">X</button>
+			</div>
+		</div>
 	</body>
 </html>
