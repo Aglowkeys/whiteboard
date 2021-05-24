@@ -66,7 +66,9 @@ const root = document.querySelector(':root');
 const [btnBrush, btnEraser, btnRainbow, btnRandom, btnClear] = document.querySelectorAll('button');
 const [inputColor, inputRange] = document.querySelectorAll('input');
 const brushSize = document.querySelector('.brush-size');
+
 let current = btnBrush; // nuestra herramienta activa
+btnBrush.className = 'active';
 const updateCurrent = (elem) => {
 	current.className = '';
 	current = elem;
