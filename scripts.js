@@ -19,6 +19,7 @@ const reposition = (ev) => {
 };
 
 const draw = (ev) => {
+	if (isErasing) color = 'white';
 	ctx.beginPath();
 	ctx.lineWidth = radius;
 	ctx.lineCap = 'round';
@@ -50,6 +51,7 @@ let radius = 5; // para el input range
 let color = '#000'; // para el selector de color
 let hue = 15; // para el input rainbow
 let isRainbow = false;
+let isErasing = false;
 let rainbowColor = `hsl(${hue}, 80%, 70%)`;
 
 const getRandomColor = () => {
@@ -57,6 +59,12 @@ const getRandomColor = () => {
 	// reflejar el cambio también en el input type="color"
 	// y solo acepta values que sean hexadecimales.
 	color = '#' + ((Math.random() * 0xffffff) << 0).toString(16).padStart(6, '0');
+};
+
+const updateCurrent = (elem) => {
+	current.classList.remove('active');
+	current = elem;
+	current.classList.add('active');
 };
 
 //
@@ -68,17 +76,13 @@ const [inputColor, inputRange] = document.querySelectorAll('input');
 const brushSize = document.querySelector('.brush-size');
 
 let current = btnBrush; // nuestra herramienta activa
-btnBrush.className = 'active';
-const updateCurrent = (elem) => {
-	current.className = '';
-	current = elem;
-	current.className = 'active';
-};
+btnBrush.classList.add('active');
 
 // Pincel
 btnBrush.addEventListener('click', () => {
 	updateCurrent(btnBrush);
 	isRainbow = false;
+	isErasing = false;
 	color = inputColor.value || 'black';
 });
 
@@ -86,6 +90,7 @@ btnBrush.addEventListener('click', () => {
 btnEraser.addEventListener('click', () => {
 	updateCurrent(btnEraser);
 	isRainbow = false;
+	isErasing = true;
 	color = 'white';
 });
 
@@ -99,6 +104,7 @@ inputColor.addEventListener('change', (ev) => {
 btnRainbow.addEventListener('click', () => {
 	updateCurrent(btnRainbow);
 	isRainbow = true;
+	isErasing = false;
 });
 
 // Color random

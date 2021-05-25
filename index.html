@@ -20,18 +20,18 @@
 		<title>Whiteboard</title>
 	</head>
 	<body>
-		<section id="tools" class="tools-container">
+		<section class="tools-container">
 			<div class="tools">
-				<button id="btn-brush">
+				<button id="btn-brush" class="btn btn-brush">
 					<i class="fas fa-paint-brush"></i><span class="tooltip">Pincel</span>
 				</button>
-				<button id="btn-eraser">
+				<button id="btn-eraser" class="btn btn-eraser">
 					<i class="fas fa-eraser"></i><span class="tooltip">Borrador</span>
 				</button>
-				<button id="btn-rainbow">
+				<button id="btn-rainbow" class="btn btn-rainbow">
 					<i class="fas fa-rainbow"></i><span class="tooltip">Arcoiris</span>
 				</button>
-				<button id="btn-random">
+				<button id="btn-random" class="btn btn-rainbow">
 					<i class="fas fa-question"></i><span class="tooltip">Color al azar</span>
 				</button>
 				<div class="input-container color">
@@ -53,15 +53,17 @@
 					<span class="tooltip">Cambiar tamaño</span>
 				</div>
 				<span class="brush-size">10px</span>
-				<button id="btn-clear" class="btn-clear">
+				<button id="btn-clear" class="btn btn-clear">
 					<i class="far fa-file"></i> <span class="tooltip">Limpiar pizarra</span>
 				</button>
-				<button id="btn-info">
+				<button id="btn-info" class="btn btn-info">
 					<i class="fas fa-info"></i> <span class="tooltip">Información</span>
 				</button>
 			</div>
 		</section>
+
 		<canvas id="canvas"></canvas>
+
 		<div class="overlay" id="modal-overlay">
 			<div class="modal" id="modal">
 				<h1>Whiteboard</h1>

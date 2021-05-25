@@ -49,7 +49,7 @@ canvas {
 	align-items: center;
 }
 
-.tools button,
+.btn,
 .color {
 	width: 3rem;
 	height: 3rem;
@@ -64,30 +64,30 @@ canvas {
 	transition: background-color 200ms ease, box-shadow 300ms linear;
 }
 
-.tools button:hover,
+.btn:hover,
 .color:hover {
 	background-color: var(--white-100);
 	color: var(--primary);
 }
 
-.tools button:active,
+.btn:active,
 .color:active {
 	transform: scale(0.97);
 	transform-origin: bottom;
 }
 
-.tools button i {
+.btn i {
 	transition: transform 200ms ease;
 }
 
-.tools .active {
+.active {
 	box-shadow: 0 5px 15px -10px rgba(0, 0, 0, 0.5), 0 -5px 10px white,
 		inset 0 -3px 5px var(--white-100), inset 0 0 10px rgba(0, 0, 0, 0.1),
 		0 0 0 5px var(--white-200);
 	color: var(--primary);
 }
 
-.tools .active i {
+.active i {
 	transform: scale(1.4);
 }
 
@@ -111,7 +111,7 @@ canvas {
 	transition: 0.2s ease;
 }
 
-button:hover .tooltip,
+.btn:hover .tooltip,
 .input-container:hover .tooltip {
 	transform: translate(0, -50%);
 	opacity: 1;
