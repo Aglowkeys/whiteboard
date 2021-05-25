@@ -35,18 +35,11 @@ canvas {
 
 	display: flex;
 	flex-direction: column;
+	align-items: center;
 	background-color: var(--white-100);
-	text-align: center;
 	padding: 1em;
 	border-right: 1px solid var(--white-200);
 	box-shadow: 0.5em 0 2em rgba(0, 0, 0, 0.15);
-}
-
-.tools {
-	display: flex;
-	flex: 1;
-	flex-direction: column;
-	align-items: center;
 }
 
 .btn,

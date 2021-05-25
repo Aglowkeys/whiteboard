@@ -37,54 +37,52 @@
 	</head>
 	<body>
 		<section class="tools-container">
-			<div class="tools">
-				<button id="btn-brush" class="btn btn-brush">
-					<i class="fas fa-paint-brush"></i><span class="tooltip">Pincel</span>
-				</button>
-				<button id="btn-eraser" class="btn btn-eraser">
-					<i class="fas fa-eraser"></i><span class="tooltip">Borrador</span>
-				</button>
-				<button id="btn-rainbow" class="btn btn-rainbow">
-					<i class="fas fa-rainbow"></i><span class="tooltip">Arcoiris</span>
-				</button>
-				<button id="btn-random" class="btn btn-random">
-					<i class="fas fa-question"></i><span class="tooltip">Color al azar</span>
-				</button>
-				<button id="btn-bucket" class="btn btn-bucket">
-					<i class="fas fa-fill-drip"></i><span class="tooltip">Rellenar pizarra</span>
-				</button>
-				<div class="input-container color">
-					<input id="btn-color" class="input-color" type="color" autocomplete="off" />
-					<i class="fas fa-palette"></i>
-					<span class="tooltip">Seleccionar color</span>
-					<span class="current-color"></span>
-				</div>
-				<button id="btn-square" class="btn btn-square">
+			<button id="btn-brush" class="btn btn-brush">
+				<i class="fas fa-paint-brush"></i><span class="tooltip">Pincel</span>
+			</button>
+			<button id="btn-eraser" class="btn btn-eraser">
+				<i class="fas fa-eraser"></i><span class="tooltip">Borrador</span>
+			</button>
+			<button id="btn-rainbow" class="btn btn-rainbow">
+				<i class="fas fa-rainbow"></i><span class="tooltip">Arcoiris</span>
+			</button>
+			<button id="btn-bucket" class="btn btn-bucket">
+				<i class="fas fa-fill-drip"></i><span class="tooltip">Rellenar pizarra</span>
+			</button>
+			<button id="btn-random" class="btn btn-random">
+				<i class="fas fa-question"></i><span class="tooltip">Color al azar</span>
+			</button>
+			<div class="input-container color">
+				<input id="btn-color" class="input-color" type="color" autocomplete="off" />
+				<i class="fas fa-palette"></i>
+				<span class="tooltip">Seleccionar color</span>
+				<span class="current-color"></span>
+			</div>
+			<!-- <button id="btn-square" class="btn btn-square">
 					<i class="far fa-square"></i><span class="tooltip">Cuadrado / rectángulo</span>
 				</button>
 				<button id="btn-circle" class="btn btn-circle">
 					<i class="far fa-circle"></i><span class="tooltip">Círculo</span>
-				</button>
-				<div class="input-container">
-					<input
-						id="btn-size"
-						type="range"
-						min="5"
-						max="50"
-						class="input-range"
-						value="5"
-						autocomplete="off"
-					/>
-					<span class="tooltip">Tamaño del pincel</span>
-				</div>
-				<span class="brush-size">10px</span>
-				<button id="btn-clear" class="btn btn-clear">
-					<i class="far fa-file"></i> <span class="tooltip">Limpiar pizarra</span>
-				</button>
-				<button id="btn-info" class="btn btn-info">
-					<i class="fas fa-info"></i> <span class="tooltip">Información</span>
-				</button>
+				</button> -->
+			<div class="input-container">
+				<input
+					id="btn-size"
+					type="range"
+					min="5"
+					max="50"
+					class="input-range"
+					value="5"
+					autocomplete="off"
+				/>
+				<span class="tooltip">Tamaño del pincel</span>
 			</div>
+			<span class="brush-size">10px</span>
+			<button id="btn-clear" class="btn btn-clear">
+				<i class="far fa-file"></i> <span class="tooltip">Limpiar pizarra</span>
+			</button>
+			<button id="btn-info" class="btn btn-info">
+				<i class="fas fa-info"></i> <span class="tooltip">Información</span>
+			</button>
 		</section>
 
 		<canvas id="canvas"></canvas>

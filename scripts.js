@@ -20,6 +20,7 @@ const reposition = (ev) => {
 
 const draw = (ev) => {
 	if (isErasing) color = 'white';
+
 	ctx.beginPath();
 	ctx.lineWidth = radius;
 	ctx.lineCap = 'round';
@@ -82,7 +83,7 @@ const updateCurrent = (elem) => {
 // ========== DOM TOOLS ==========
 //
 const root = document.querySelector(':root');
-const [btnBrush, btnEraser, btnRainbow, btnRandom, btnBucket, btnSquare, btnCircle, btnClear] =
+const [btnBrush, btnEraser, btnRainbow, btnBucket, btnRandom, /*btnSquare, btnCircle,*/ btnClear] =
 	document.querySelectorAll('button');
 const [inputColor, inputRange] = document.querySelectorAll('input');
 const brushSize = document.querySelector('.brush-size');
