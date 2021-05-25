@@ -130,6 +130,7 @@ btnRandom.addEventListener('click', () => {
 btnBucket.addEventListener('click', () => {
 	isRainbow = false;
 	isErasing = false;
+	color = inputColor.value || 'black';
 	updateCurrent(btnBucket);
 });
 
