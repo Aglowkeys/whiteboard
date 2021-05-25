@@ -35,6 +35,11 @@ const draw = (ev) => {
 	}
 };
 
+const fillCanvas = (color) => {
+	ctx.fillStyle = color;
+	ctx.fillRect(0, 0, canvas.width, canvas.height);
+};
+
 const beginDrawing = (ev) => {
 	canvas.addEventListener('mousemove', draw);
 	reposition(ev);
@@ -44,7 +49,13 @@ const stopDrawing = () => {
 	canvas.removeEventListener('mousemove', draw);
 };
 
-canvas.addEventListener('mousedown', beginDrawing);
+canvas.addEventListener('mousedown', (ev) => {
+	if (current === btnBucket) {
+		fillCanvas(color);
+	} else {
+		beginDrawing(ev);
+	}
+});
 canvas.addEventListener('mouseup', stopDrawing);
 
 let radius = 5; // para el input range
@@ -71,7 +82,8 @@ const updateCurrent = (elem) => {
 // ========== DOM TOOLS ==========
 //
 const root = document.querySelector(':root');
-const [btnBrush, btnEraser, btnRainbow, btnRandom, btnClear] = document.querySelectorAll('button');
+const [btnBrush, btnEraser, btnRainbow, btnRandom, btnBucket, btnSquare, btnCircle, btnClear] =
+	document.querySelectorAll('button');
 const [inputColor, inputRange] = document.querySelectorAll('input');
 const brushSize = document.querySelector('.brush-size');
 
@@ -114,6 +126,13 @@ btnRandom.addEventListener('click', () => {
 	root.style.setProperty('--current-color', color);
 });
 
+// Balde
+btnBucket.addEventListener('click', () => {
+	isRainbow = false;
+	isErasing = false;
+	updateCurrent(btnBucket);
+});
+
 // Tamaño pincel
 inputRange.addEventListener('input', (ev) => {
 	brushSize.innerText = ev.target.value * 2 + 'px';
@@ -121,10 +140,7 @@ inputRange.addEventListener('input', (ev) => {
 });
 
 // Limpiar pizarra
-btnClear.addEventListener('click', () => {
-	ctx.fillStyle = 'white';
-	ctx.fillRect(0, 0, canvas.width, canvas.height);
-});
+btnClear.addEventListener('click', () => fillCanvas('white'));
 
 //
 // ========== MODAL ==========
