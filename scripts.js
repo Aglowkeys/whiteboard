@@ -57,14 +57,23 @@ canvas.addEventListener('mousedown', (ev) => {
 		beginDrawing(ev);
 	}
 });
+
 canvas.addEventListener('mouseup', stopDrawing);
 
-let radius = 5; // para el input range
+let radius = 5; // para el input range y el puntero
 let color = '#000'; // para el selector de color
 let hue = 15; // para el input rainbow
 let isRainbow = false;
 let isErasing = false;
 let rainbowColor = `hsl(${hue}, 80%, 70%)`;
+
+// Puntero
+window.addEventListener('mousemove', (ev) => {
+	coords.x = ev.x;
+	coords.y = ev.y;
+	pointer.style.top = ev.y + 'px';
+	pointer.style.left = ev.x + 'px';
+});
 
 const getRandomColor = () => {
 	// No puede ser en hsl porque uso este valor para
@@ -139,6 +148,8 @@ btnBucket.addEventListener('click', () => {
 inputRange.addEventListener('input', (ev) => {
 	brushSize.innerText = ev.target.value * 2 + 'px';
 	radius = ev.target.value;
+	pointer.style.width = ev.target.value + 'px';
+	pointer.style.height = ev.target.value + 'px';
 });
 
 // Limpiar pizarra

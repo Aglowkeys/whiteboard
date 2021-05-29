@@ -307,3 +307,16 @@ h1 {
 .btn-close:active {
 	transform: scale(0.95);
 }
+
+#pointer {
+	background-color: transparent;
+	border: 2px solid #ddd;
+	border-radius: 50%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 10px;
+	height: 10px;
+	transform: translate(-50%, -50%);
+	pointer-events: none;
+}
