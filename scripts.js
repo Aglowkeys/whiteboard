@@ -146,10 +146,11 @@ btnBucket.addEventListener('click', () => {
 
 // Tamaño pincel
 inputRange.addEventListener('input', (ev) => {
-	brushSize.innerText = ev.target.value + 'px';
 	radius = ev.target.value;
-	pointer.style.width = ev.target.value + 'px';
-	pointer.style.height = ev.target.value + 'px';
+	let size = radius + 'px';
+	brushSize.innerText = size;
+	pointer.style.width = size;
+	pointer.style.height = size;
 });
 
 // Limpiar pizarra
