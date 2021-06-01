@@ -146,7 +146,7 @@ btnBucket.addEventListener('click', () => {
 
 // Tamaño pincel
 inputRange.addEventListener('input', (ev) => {
-	brushSize.innerText = ev.target.value * 2 + 'px';
+	brushSize.innerText = ev.target.value + 'px';
 	radius = ev.target.value;
 	pointer.style.width = ev.target.value + 'px';
 	pointer.style.height = ev.target.value + 'px';
