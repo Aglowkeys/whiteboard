@@ -58,6 +58,10 @@ canvas.addEventListener('mousedown', (ev) => {
 	}
 });
 
+canvas.addEventListener('click', (ev) => {
+	draw(ev);
+});
+
 canvas.addEventListener('mouseup', stopDrawing);
 
 let radius = 5; // para el input range y el puntero
