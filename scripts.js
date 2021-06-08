@@ -191,3 +191,12 @@ window.addEventListener('keydown', (ev) => {
 		modal.classList.remove('visible');
 	}
 });
+
+//
+// ========== DESCARGAR IMAGEN ==========
+//
+const btnDownload = document.getElementById('btn-download');
+
+btnDownload.addEventListener('click', () => {
+	btnDownload.href = canvas.toDataURL('image/png');
+});

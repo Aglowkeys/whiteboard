@@ -55,6 +55,10 @@ canvas {
 	border-radius: 50%;
 	position: relative;
 	transition: background-color 200ms ease, box-shadow 300ms linear;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: default;
 }
 
 .btn:hover,
@@ -95,11 +99,12 @@ canvas {
 	user-select: none;
 	pointer-events: none;
 
-	color: var(--white-100);
-	background: var(--dark-100);
-	font-size: 0.7rem;
-	padding: 0.5em 1em;
 	width: 7em;
+	padding: 0.5em 1em;
+	color: var(--white-100);
+	background-color: var(--dark-100);
+	font-size: 0.7rem;
+	text-align: center;
 	border-radius: 0.5em;
 	transition: 0.2s ease;
 }
