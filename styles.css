@@ -257,7 +257,7 @@ h1 {
 	position: relative;
 }
 
-.social li:first-child {
+.social li:not(:last-child) {
 	margin-right: 0.5em;
 }
 
@@ -273,16 +273,20 @@ h1 {
 	opacity: 0;
 	pointer-events: none;
 	user-select: none;
+	padding: 0.3em 0.75em;
+
 	position: absolute;
 	bottom: calc(100% + 0.5em);
 	left: 50%;
 	transform: translate(-50%, -0.5em);
+
 	font-size: 0.4em;
 	font-weight: bold;
+	text-align: center;
 	background-color: var(--primary);
 	color: var(--white-100);
-	padding: 0.3em 0.75em;
 	border-radius: 0.5em;
+	white-space: nowrap;
 	transition: 0.2s ease;
 }
 
