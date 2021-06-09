@@ -98,7 +98,7 @@ const updateCurrent = (elem) => {
 const root = document.querySelector(':root');
 const [btnBrush, btnEraser, btnRainbow, btnBucket, btnRandom, /*btnSquare, btnCircle,*/ btnClear] =
 	document.querySelectorAll('button');
-const [inputColor, inputRange] = document.querySelectorAll('input');
+const [inputColor, inputRange, inputUpload] = document.querySelectorAll('input');
 const brushSize = document.querySelector('.brush-size');
 
 let current = btnBrush; // nuestra herramienta activa
@@ -155,6 +155,36 @@ inputRange.addEventListener('input', (ev) => {
 	brushSize.innerText = size;
 	pointer.style.width = size;
 	pointer.style.height = size;
+});
+
+// Subir imagen
+const isImgValid = (filename) => {
+	let ext = filename.split('.').pop().toLowerCase();
+	let validImg = ['gif', 'png', 'jpg', 'jpeg'];
+	if (!validImg.includes(ext)) {
+		return false;
+	}
+	return true;
+};
+
+inputUpload.addEventListener('change', (ev) => {
+	let file = ev.target.files[0];
+	if (isImgValid(file.name)) {
+		let fr = new FileReader();
+		fr.onload = (ev) => {
+			let img = new Image();
+			img.onload = () => {
+				// canvas.width = img.width;
+				// canvas.height = img.height;
+				ctx.drawImage(img, 100, 0);
+			};
+			img.src = ev.target.result;
+		};
+		fr.readAsDataURL(file);
+	} else {
+		alert('Archivo inválido. Formatos admitidos: png, gif, jpg');
+	}
+	inputUpload.value = '';
 });
 
 // Limpiar pizarra
