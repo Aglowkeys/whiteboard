@@ -19,7 +19,7 @@ const reposition = (ev) => {
 };
 
 const draw = (ev) => {
-	if (isErasing) color = 'white';
+	if (isErasing) color = canvasColor;
 
 	ctx.beginPath();
 	ctx.lineWidth = radius;
@@ -53,6 +53,7 @@ const stopDrawing = () => {
 canvas.addEventListener('mousedown', (ev) => {
 	if (current === btnBucket) {
 		fillCanvas(color);
+		canvasColor = color;
 	} else {
 		beginDrawing(ev);
 	}
@@ -66,6 +67,7 @@ canvas.addEventListener('mouseup', stopDrawing);
 
 let radius = 5; // para el input range y el puntero
 let color = '#000'; // para el selector de color
+let canvasColor = 'white'; // para cuando borramos y usamos el balde
 let hue = 15; // para el input rainbow
 let isRainbow = false;
 let isErasing = false;
@@ -117,7 +119,6 @@ btnEraser.addEventListener('click', () => {
 	updateCurrent(btnEraser);
 	isRainbow = false;
 	isErasing = true;
-	color = 'white';
 });
 
 // Selector de color
