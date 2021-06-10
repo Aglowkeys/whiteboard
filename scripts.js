@@ -158,14 +158,13 @@ inputRange.addEventListener('input', (ev) => {
 	pointer.style.height = size;
 });
 
-// Subir imagen
+//
+// ========== SUBIR IMAGEN ==========
+//
 const isImgValid = (filename) => {
-	let ext = filename.split('.').pop().toLowerCase();
+	let extension = filename.split('.').pop().toLowerCase();
 	let validImg = ['gif', 'png', 'jpg', 'jpeg'];
-	if (!validImg.includes(ext)) {
-		return false;
-	}
-	return true;
+	return validImg.includes(extension);
 };
 
 inputUpload.addEventListener('change', (ev) => {
