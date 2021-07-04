@@ -100,7 +100,7 @@ const updateCurrent = (elem) => {
 const root = document.querySelector(':root');
 const [btnBrush, btnEraser, btnRainbow, btnBucket, btnRandom, /*btnSquare, btnCircle,*/ btnClear] =
 	document.querySelectorAll('button');
-const [inputColor, inputRange, inputUpload] = document.querySelectorAll('input');
+const [inputColor, inputRange /*inputUpload*/] = document.querySelectorAll('input');
 const brushSize = document.querySelector('.brush-size');
 
 let current = btnBrush; // nuestra herramienta activa
@@ -161,6 +161,7 @@ inputRange.addEventListener('input', (ev) => {
 //
 // ========== SUBIR IMAGEN ==========
 //
+/* 
 const isImgValid = (filename) => {
 	let extension = filename.split('.').pop().toLowerCase();
 	let validImg = ['gif', 'png', 'jpg', 'jpeg'];
@@ -186,6 +187,7 @@ inputUpload.addEventListener('change', (ev) => {
 	}
 	inputUpload.value = '';
 });
+ */
 
 // Limpiar pizarra
 btnClear.addEventListener('click', () => fillCanvas('white'));
