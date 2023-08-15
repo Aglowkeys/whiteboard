@@ -92,6 +92,10 @@ canvas {
   color: var(--primary-600)
 }
 
+.btn:hover .keybinding {
+  color: var(--primary-400)
+}
+
 .btn:focus,
 .input-container:focus-within {
   outline-color: var(--primary-200);
@@ -140,6 +144,14 @@ canvas {
 
 .range:active .tooltip {
     opacity: 0;
+}
+
+.range .keybinding {
+  bottom: -0.4rem;
+  right: 0;
+  z-index: 1;
+  padding: 0 0.1rem;
+  background-color: var(--gray-100);
 }
 
 .input-color {
