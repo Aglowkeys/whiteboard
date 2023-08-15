@@ -204,9 +204,15 @@ window.addEventListener('keydown', (ev) => {
 // ========== DESCARGAR IMAGEN ==========
 //
 const btnDownload = document.getElementById('btn-download');
+const notification = document.getElementById('notification');
 
 btnDownload.addEventListener('click', () => {
     btnDownload.href = canvas.toDataURL('image/png');
+    notification.classList.add('show')
+
+    setTimeout(() => {
+      notification.classList.remove('show')
+    }, 3000)
 });
 
 //
