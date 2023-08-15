@@ -217,16 +217,16 @@ const selectSizeTool = () => inputRange.focus();
 const selectDownloadTool = () => btnDownload.click();
 
 const keyMaps = {
-    a: selectRainbowTool,
-    b: selectEraserTool,
-    c: selectRandomColorTool,
-    d: selectDownloadTool,
-    i: openModal,
-    n: selectClearBoard,
-    p: selectBrushTool,
-    r: selectBucketTool,
-    s: selectColorTool,
-    t: selectSizeTool,
+  '1': selectBrushTool,
+  '2': selectEraserTool,
+  '3': selectRainbowTool,
+  '4': selectBucketTool,
+  '5': selectRandomColorTool,
+  '6': selectColorTool,
+  '7': selectSizeTool,
+  '8': selectClearBoard,
+  '9': selectDownloadTool,
+  '0': openModal,
 };
 window.addEventListener('keydown', (ev) => {
     const pressedKey = ev.key.toLowerCase();
