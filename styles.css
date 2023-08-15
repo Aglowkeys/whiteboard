@@ -9,14 +9,16 @@
     --gray-100: #fafafa;
     --gray-200: #e5e4e6;
     --gray-300: #c5c4c7;
+    --gray-600: #637376;
     --gray-700: #3e4d50;
     --gray-800: #273639;
     --primary-50: #f1eefb;
     --primary-100: #e3dcf9;
     --primary-200: #ac94ef;
-    --primary-300: #5f2ee6;
-    --primary-400: #430bd8;
-    --primary-500: #3108a4;
+    --primary-300: #8c68f1;
+    --primary-400: #5f2ee6;
+    --primary-500: #430bd8;
+    --primary-600: #3108a4;
     --current-color: #000;
 }
 
@@ -65,6 +67,16 @@ canvas {
   padding: 0.5rem 0;
 }
 
+.keybinding {
+  line-height: 1;
+  position: absolute;
+  bottom: 0.1rem;
+  right: 0.15rem;
+  font-size: 0.5rem;
+  font-weight: 700;
+  color: var(--primary-300);
+}
+
 .btn {
   border: none;
   color: var(--gray-800);
@@ -77,7 +89,7 @@ canvas {
 
 .btn:hover:not(.active) {
   background-color: var(--primary-100);
-  color: var(--primary-500)
+  color: var(--primary-600)
 }
 
 .btn:focus,
@@ -86,11 +98,15 @@ canvas {
 }
 
 .active:focus {
-  outline-color: var(--primary-500)
+  outline-color: var(--primary-600)
 }
 
 .active {
-  background-color: var(--primary-300);
+  background-color: var(--primary-400);
+  color: var(--primary-100)
+}
+
+.active .keybinding {
   color: var(--primary-100)
 }
 
@@ -170,7 +186,7 @@ canvas {
 .input-range:focus::-webkit-slider-thumb,
 .input-range:focus::-moz-range-thumb {
     transform: scale(1.1);
-    border: 2px solid var(--primary-400);
+    border: 2px solid var(--primary-500);
     background-color: var(--primary-50);
 }
 
@@ -243,7 +259,7 @@ canvas {
 }
 
 .modal a {
-    color: var(--primary-400);
+    color: var(--primary-500);
     font-weight: bold;
     outline: 2px solid transparent;
     transition: outline-color 200ms ease;
@@ -276,7 +292,7 @@ canvas {
 }
 
 .social a:hover {
-    color: var(--primary-400);
+    color: var(--primary-500);
 }
 
 .social span {
@@ -293,7 +309,7 @@ canvas {
     font-size: 0.4em;
     font-weight: bold;
     text-align: center;
-    background-color: var(--primary-300);
+    background-color: var(--primary-400);
     color: var(--primary-50);
     border-radius: 0.5em;
     white-space: nowrap;
