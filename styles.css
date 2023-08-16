@@ -9,6 +9,7 @@
     --gray-100: #fafafa;
     --gray-200: #e5e4e6;
     --gray-300: #c5c4c7;
+    --gray-400: #a2a1a5;
     --gray-600: #637376;
     --gray-700: #3e4d50;
     --gray-800: #273639;
@@ -20,6 +21,8 @@
     --primary-500: #430bd8;
     --primary-600: #3108a4;
     --current-color: #000;
+
+  --dialog-box-shadow: 0 0.5em 1em -0.5em rgba(0, 0, 0, 0.3);
 }
 
 body {
@@ -125,7 +128,7 @@ canvas {
     user-select: none;
     pointer-events: none;
 
-    width: 7em;
+    white-space: nowrap;
     padding: 0.5em 1em;
     color: var(--gray-100);
     background-color: var(--gray-800);
@@ -219,6 +222,7 @@ canvas {
 }
 
 .overlay {
+    padding: 2rem;
     background-color: rgba(0, 0, 0, 0.15);
     box-shadow: inset 0 0 15em rgba(0, 0, 0, 0.4);
     z-index: 5;
@@ -244,8 +248,7 @@ canvas {
     background-color: var(--gray-100);
     padding: 1.5em 2em;
     border-radius: 0.5em;
-    box-shadow: 0 0.5em 1em -0.5em rgba(0, 0, 0, 0.3);
-    width: 90%;
+    box-shadow: var(--dialog-box-shadow);
     max-width: 40em;
     position: relative;
     opacity: 0;
@@ -392,4 +395,63 @@ canvas {
   100% {
     transform: translateX(-150%);
   }
+}
+
+.confirm {
+  max-width: 25rem;
+  background-color: var(--gray-100);
+  padding: 1.5rem 2rem;
+  color: var(--gray-800);
+  border-radius: 0.3rem;
+  font-size: 0.9rem;
+  box-shadow: var(--dialog-box-shadow);
+
+  opacity: 0;
+  transform: translateY(-15px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.confirm.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.confirm h2 {
+  font-size: 1.25rem;
+  margin-bottom: 0.25em;
+}
+
+.confirm__buttons {
+  margin-top: 2rem;
+}
+
+.confirm__buttons button {
+  border: none;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.3rem;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.confirm__buttons button:active {
+  filter: brightness(1.05)
+}
+
+.confirm__button-ok {
+  background-color: var(--primary-400);
+  color: var(--gray-100);
+}
+
+.confirm__button-ok:hover {
+  background-color: var(--primary-500); 
+}
+
+.confirm__button-cancel {
+  background-color: transparent;
+  color: var(--primary-400)
+}
+
+.confirm__button-cancel:hover {
+  background-color: var(--primary-50);
+  color: var(--primary-500)
 }

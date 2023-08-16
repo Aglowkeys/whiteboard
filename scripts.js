@@ -164,8 +164,28 @@ inputRange.addEventListener('input', (ev) => {
 });
 
 // Limpiar pizarra
-const selectClearBoard = () => fillCanvas('white');
-btnClear.addEventListener('click', selectClearBoard);
+const confirmOverlay = document.getElementById('confirm-overlay');
+const confirmDialog = document.getElementById('confirm');
+const [clearBoardButton, cancelClearBoardButton] = confirmDialog.querySelectorAll('button');
+
+const showConfirmDialog = () => {
+  confirmOverlay.classList.add('visible');
+  confirmDialog.classList.add('visible');
+};
+
+const hideConfirmDialog = () => {
+  confirmOverlay.classList.remove('visible');
+  confirmDialog.classList.remove('visible');
+}
+
+const clearBoard = () => {
+  fillCanvas('white');
+  hideConfirmDialog();
+};
+
+btnClear.addEventListener('click', showConfirmDialog);
+clearBoardButton.addEventListener('click', clearBoard);
+cancelClearBoardButton.addEventListener('click', hideConfirmDialog);
 
 //
 // ========== MODAL ==========
@@ -230,7 +250,7 @@ const keyMaps = {
   '5': selectRandomColorTool,
   '6': selectColorTool,
   '7': selectSizeTool,
-  '8': selectClearBoard,
+  '8': showConfirmDialog,
   '9': selectDownloadTool,
   '0': openModal,
 };
