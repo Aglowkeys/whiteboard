@@ -195,28 +195,45 @@ const btnClose = document.getElementById('btn-close');
 const overlay = document.getElementById('modal-overlay');
 const modal = document.getElementById('modal');
 
+/* Managing Focus Trap inside the modal */
+const [topFocusTrap, bottomFocusTrap] = modal.querySelectorAll('[class^=focus-trap]');
+const allFocusableElements = modal.querySelectorAll('button, a')
+const firstFocusableElement = allFocusableElements[0];
+const lastFocusableElement = allFocusableElements[allFocusableElements.length - 1]
+
+const goToFirstFocusableElement = () => firstFocusableElement.focus();
+const goToLastFocusableElement = () => lastFocusableElement.focus();
+
+topFocusTrap.addEventListener('focus', goToLastFocusableElement);
+bottomFocusTrap.addEventListener('focus', goToFirstFocusableElement);
+
 const openModal = () => {
     overlay.classList.add('visible');
     modal.classList.add('visible');
+    firstFocusableElement.focus();
 };
+
+const closeModal = () => {
+  overlay.classList.remove('visible');
+  modal.classList.remove('visible');
+
+  // Restore focus to the button that opened the modal
+  btnInfo.focus();
+}
+
 btnInfo.addEventListener('click', openModal);
 
-btnClose.addEventListener('click', () => {
-    overlay.classList.remove('visible');
-    modal.classList.remove('visible');
-});
+btnClose.addEventListener('click', closeModal);
 
 overlay.addEventListener('click', (ev) => {
     if (ev.target === overlay) {
-        overlay.classList.remove('visible');
-        modal.classList.remove('visible');
+      closeModal();
     }
 });
 
 window.addEventListener('keydown', (ev) => {
     if (ev.key === 'Escape') {
-        overlay.classList.remove('visible');
-        modal.classList.remove('visible');
+        closeModal();
     }
 });
 
