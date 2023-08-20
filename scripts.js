@@ -168,15 +168,25 @@ const confirmOverlay = document.getElementById('confirm-overlay');
 const confirmDialog = document.getElementById('confirm');
 const [clearBoardButton, cancelClearBoardButton] =
   confirmDialog.querySelectorAll('button');
+const [confirmTopTrap, confirmBottomTrap] = confirmDialog.querySelectorAll(
+  '[id^=confirm-focus-trap]'
+);
+
+confirmTopTrap.addEventListener('focus', () => cancelClearBoardButton.focus());
+confirmBottomTrap.addEventListener('focus', () => clearBoardButton.focus());
 
 const showConfirmDialog = () => {
   confirmOverlay.classList.add('visible');
   confirmDialog.classList.add('visible');
+  clearBoardButton.focus();
 };
 
 const hideConfirmDialog = () => {
   confirmOverlay.classList.remove('visible');
   confirmDialog.classList.remove('visible');
+
+  // Restore focus to the button that opened the confirm dialog
+  btnClear.focus();
 };
 
 const clearBoard = () => {
@@ -197,7 +207,7 @@ const overlay = document.getElementById('modal-overlay');
 const modal = document.getElementById('modal');
 
 /* Managing Focus Trap inside the modal */
-const [topFocusTrap, bottomFocusTrap] = modal.querySelectorAll('[class^=focus-trap]');
+const [topFocusTrap, bottomFocusTrap] = modal.querySelectorAll('[id^=modal-focus-trap]');
 const allFocusableElements = modal.querySelectorAll('button, a');
 const firstFocusableElement = allFocusableElements[0];
 const lastFocusableElement = allFocusableElements[allFocusableElements.length - 1];
@@ -211,12 +221,17 @@ bottomFocusTrap.addEventListener('focus', goToFirstFocusableElement);
 const openModal = () => {
   overlay.classList.add('visible');
   modal.classList.add('visible');
+
+  window.addEventListener('keydown', keyDownEscHandler);
+
   firstFocusableElement.focus();
 };
 
 const closeModal = () => {
   overlay.classList.remove('visible');
   modal.classList.remove('visible');
+
+  window.removeEventListener('keydown', keyDownEscHandler);
 
   // Restore focus to the button that opened the modal
   btnInfo.focus();
@@ -232,11 +247,11 @@ overlay.addEventListener('click', (ev) => {
   }
 });
 
-window.addEventListener('keydown', (ev) => {
+const keyDownEscHandler = (ev) => {
   if (ev.key === 'Escape') {
     closeModal();
   }
-});
+};
 
 //
 // ========== DESCARGAR IMAGEN ==========

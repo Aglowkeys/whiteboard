@@ -447,15 +447,17 @@ canvas {
   margin-top: 2rem;
 }
 
-.confirm__buttons button {
+.confirm__button {
   border: none;
   padding: 0.5rem 0.75rem;
   border-radius: 0.3rem;
   cursor: pointer;
   font-weight: 600;
+  outline: 2px solid transparent;
+  transition: outline-color 200ms ease;
 }
 
-.confirm__buttons button:active {
+.confirm__button:active {
   filter: brightness(1.05);
 }
 
@@ -468,12 +470,21 @@ canvas {
   background-color: var(--primary-500);
 }
 
+.confirm__button-ok:focus {
+  outline-color: var(--primary-600);
+}
+
 .confirm__button-cancel {
   background-color: transparent;
   color: var(--primary-400);
+  margin-left: 0.25rem;
 }
 
 .confirm__button-cancel:hover {
   background-color: var(--primary-50);
   color: var(--primary-500);
+}
+
+.confirm__button-cancel:focus {
+  outline-color: var(--primary-200);
 }

@@ -263,7 +263,7 @@
         aria-modal="true"
         aria-labelledby="modal-title"
       >
-        <span tabindex="0" class="focus-trap-top"></span>
+        <span tabindex="0" id="modal-focus-trap-top"></span>
 
         <h1 id="modal-title">Sobre este proyecto</h1>
         <p>
@@ -380,7 +380,7 @@
           </svg>
         </button>
 
-        <span tabindex="0" class="focus-trap-bottom"></span>
+        <span tabindex="0" id="modal-focus-trap-bottom"></span>
       </div>
     </div>
 
@@ -404,14 +404,24 @@
     </div>
 
     <div class="overlay" id="confirm-overlay">
-      <div class="confirm" id="confirm">
-        <h2>¿Quieres limpiar la pizarra?</h2>
+      <div
+        class="confirm"
+        id="confirm"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="confirm-title"
+      >
+        <span tabindex="0" id="confirm-focus-trap-top"></span>
+
+        <h2 id="confirm-title">¿Quieres limpiar la pizarra?</h2>
         <p>Se borrará lo que hayas dibujado. No se puede deshacer.</p>
 
         <div class="confirm__buttons">
-          <button class="confirm__button-ok">Limpiar pizarra</button>
-          <button class="confirm__button-cancel">Cancelar</button>
+          <button class="confirm__button confirm__button-ok">Limpiar pizarra</button>
+          <button class="confirm__button confirm__button-cancel">Cancelar</button>
         </div>
+
+        <span tabindex="0" id="confirm-focus-trap-bottom"></span>
       </div>
     </div>
 
