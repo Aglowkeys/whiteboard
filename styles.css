@@ -225,27 +225,35 @@ canvas {
 .overlay {
   z-index: 5;
   position: absolute;
-  top: -100vh;
+  top: 0;
   left: 0;
   width: 100%;
   height: 100%;
 
-  display: flex;
+  display: none;
   align-items: center;
   justify-content: center;
+
+  overflow: hidden;
+  opacity: 0;
 
   padding: 2rem;
   background-color: rgba(0, 0, 0, 0.15);
   box-shadow: inset 0 0 15em rgba(0, 0, 0, 0.4);
-  overflow: hidden;
-
-  opacity: 0;
-  transition: opacity 0.4s ease;
 }
 
 .overlay.visible {
-  top: 0;
-  opacity: 1;
+  display: flex;
+  animation: showModalOverlay 0.4s ease forwards;
+}
+
+@keyframes showModalOverlay {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 .modal {
@@ -256,14 +264,24 @@ canvas {
   max-width: 40em;
   position: relative;
   opacity: 0;
-  transform: translateY(-10px);
-  transition: opacity 0.5s ease, transform 0.5s ease;
-  transition-delay: 0.2s;
+  display: none;
 }
 
 .modal.visible {
-  opacity: 1;
-  transform: translateY(0);
+  display: block;
+  animation: showModal 0.5s ease forwards;
+  animation-delay: 0.2s;
+}
+
+@keyframes showModal {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .modal h1 {
