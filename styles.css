@@ -96,7 +96,7 @@ canvas {
   color: var(--primary-600);
 }
 
-.btn:hover .keybinding {
+.btn:hover:not(.active) .keybinding {
   color: var(--primary-400);
 }
 
@@ -105,13 +105,23 @@ canvas {
   outline-color: var(--primary-200);
 }
 
-.active:focus {
-  outline-color: var(--primary-600);
+.btn:active:not(.active) {
+  outline-color: var(--primary-300);
+  transition: background-color 0ms, outline-color 100ms;
 }
 
 .active {
   background-color: var(--primary-400);
   color: var(--primary-100);
+}
+
+.active:focus {
+outline-color: var(--primary-600  );
+}
+
+.active:active {
+  transition: background-color 0ms, outline-color 200ms;
+  background-color: var(--primary-500);
 }
 
 .active .keybinding {
@@ -169,12 +179,12 @@ canvas {
 }
 
 .current-color {
-  --_size: 0.6rem;
+  --_size: 0.5rem;
   position: absolute;
   width: var(--_size);
   height: var(--_size);
-  top: -0.2rem;
-  right: -0.2rem;
+  top: -0rem;
+  right: -0rem;
   background-color: var(--current-color);
   border-radius: 50%;
 }
