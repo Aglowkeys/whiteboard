@@ -145,6 +145,7 @@ const selectRandomColorTool = () => {
   getRandomColor();
   inputColor.value = color;
   root.style.setProperty('--current-color', color);
+  btnRandom.focus();
 };
 btnRandom.addEventListener('click', selectRandomColorTool);
 
@@ -179,6 +180,7 @@ const showConfirmDialog = () => {
   confirmOverlay.classList.add('visible');
   confirmDialog.classList.add('visible');
   clearBoardButton.focus();
+  confirmOverlay.addEventListener('keydown', hideConfirmDialogOnEsc);
 };
 
 const hideConfirmDialog = () => {
@@ -187,7 +189,14 @@ const hideConfirmDialog = () => {
 
   // Restore focus to the button that opened the confirm dialog
   btnClear.focus();
+  confirmOverlay.removeEventListener('keydown', hideConfirmDialogOnEsc);
 };
+
+const hideConfirmDialogOnEsc = (ev) => {
+  if (ev.key === 'Escape') {
+    hideConfirmDialog();
+  }
+}
 
 const clearBoard = () => {
   fillCanvas('white');
@@ -222,7 +231,7 @@ const openModal = () => {
   overlay.classList.add('visible');
   modal.classList.add('visible');
 
-  window.addEventListener('keydown', keyDownEscHandler);
+  window.addEventListener('keydown', closeModalOnEsc);
 
   firstFocusableElement.focus();
 };
@@ -231,7 +240,7 @@ const closeModal = () => {
   overlay.classList.remove('visible');
   modal.classList.remove('visible');
 
-  window.removeEventListener('keydown', keyDownEscHandler);
+  window.removeEventListener('keydown', closeModalOnEsc);
 
   // Restore focus to the button that opened the modal
   btnInfo.focus();
@@ -247,7 +256,7 @@ overlay.addEventListener('click', (ev) => {
   }
 });
 
-const keyDownEscHandler = (ev) => {
+const closeModalOnEsc = (ev) => {
   if (ev.key === 'Escape') {
     closeModal();
   }
@@ -271,9 +280,15 @@ btnDownload.addEventListener('click', () => {
 //
 // ========== SELECCIÓN CON TECLADO ==========
 //
-const selectColorTool = () => inputColor.click();
+const selectColorTool = () => {
+  inputColor.focus();
+  inputColor.click();
+};
 const selectSizeTool = () => inputRange.focus();
-const selectDownloadTool = () => btnDownload.click();
+const selectDownloadTool = () => {
+  btnDownload.focus();
+  btnDownload.click();
+};
 
 const keyMaps = {
   1: selectBrushTool,
@@ -287,9 +302,8 @@ const keyMaps = {
   9: selectDownloadTool,
   0: openModal,
 };
+
 window.addEventListener('keydown', (ev) => {
-  const pressedKey = ev.key.toLowerCase();
-  if (keyMaps.hasOwnProperty(pressedKey)) {
-    keyMaps[pressedKey]();
-  }
+  const toolFunctionToCall = keyMaps[ev.key];
+  toolFunctionToCall && toolFunctionToCall();
 });
