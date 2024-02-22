@@ -43,27 +43,33 @@ const fillCanvas = (color) => {
 
 const beginDrawing = (ev) => {
   canvas.addEventListener('mousemove', draw);
+  canvas.addEventListener('touchmove', draw);
   reposition(ev);
 };
 
 const stopDrawing = () => {
   canvas.removeEventListener('mousemove', draw);
+  canvas.removeEventListener('touchmove', draw);
 };
 
-canvas.addEventListener('mousedown', (ev) => {
+const drawOrFillCanvas = (ev) => {
   if (current === btnBucket) {
     fillCanvas(color);
     canvasColor = color;
   } else {
     beginDrawing(ev);
   }
-});
+};
+
+canvas.addEventListener('mousedown', drawOrFillCanvas);
+canvas.addEventListener('touchstart', drawOrFillCanvas);
 
 canvas.addEventListener('click', (ev) => {
   draw(ev);
 });
 
 canvas.addEventListener('mouseup', stopDrawing);
+canvas.addEventListener('touchend', stopDrawing);
 
 let radius = 5; // para el input range y el puntero
 let color = '#000'; // para el selector de color
