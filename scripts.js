@@ -13,7 +13,7 @@ const coords = {
   y: null,
 };
 
-const undoSnapshots = [];
+let undoSnapshots = [];
 
 const addSnapshotToUndoHistory = () => {
   undoSnapshots.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
@@ -225,6 +225,7 @@ const hideConfirmDialogOnEsc = (ev) => {
 const clearBoard = () => {
   fillCanvas('white');
   hideConfirmDialog();
+  undoSnapshots = [];
 };
 
 btnClear.addEventListener('click', showConfirmDialog);
