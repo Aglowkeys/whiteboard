@@ -13,6 +13,23 @@ const coords = {
   y: null,
 };
 
+const undoSnapshots = [];
+
+const addSnapshotToUndoHistory = () => {
+  undoSnapshots.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
+};
+
+const undoLastAction = () => {
+  undoSnapshots.pop();
+  
+  if (undoSnapshots.length > 0) {
+    const lastElementIdx = undoSnapshots.length - 1;
+    ctx.putImageData(undoSnapshots[lastElementIdx], 0, 0);
+  } else {
+   fillCanvas('white');
+  }
+};
+
 const reposition = (ev) => {
   coords.x = ev.x - canvas.offsetLeft;
   coords.y = ev.y - canvas.offsetTop;
@@ -48,6 +65,7 @@ const beginDrawing = (ev) => {
 
 const stopDrawing = () => {
   canvas.removeEventListener('mousemove', draw);
+  addSnapshotToUndoHistory();
 };
 
 canvas.addEventListener('mousedown', (ev) => {
@@ -80,6 +98,12 @@ window.addEventListener('mousemove', (ev) => {
   pointer.style.top = ev.y + 'px';
   pointer.style.left = ev.x + 'px';
 });
+
+window.addEventListener('keydown', (ev) => {
+  if (ev.key === 'z' && ev.ctrlKey) {
+    undoLastAction();
+  }
+})
 
 const getRandomColor = () => {
   // No puede ser en hsl porque uso este valor para
