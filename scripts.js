@@ -21,12 +21,12 @@ const addSnapshotToUndoHistory = () => {
 
 const undoLastAction = () => {
   undoSnapshots.pop();
-  
+
   if (undoSnapshots.length > 0) {
     const lastElementIdx = undoSnapshots.length - 1;
     ctx.putImageData(undoSnapshots[lastElementIdx], 0, 0);
   } else {
-   fillCanvas('white');
+    fillCanvas('white');
   }
 };
 
@@ -103,7 +103,7 @@ window.addEventListener('keydown', (ev) => {
   if (ev.key === 'z' && ev.ctrlKey) {
     undoLastAction();
   }
-})
+});
 
 const getRandomColor = () => {
   // No puede ser en hsl porque uso este valor para
@@ -122,15 +122,8 @@ const updateCurrent = (elem) => {
 // ========== DOM TOOLS ==========
 //
 const root = document.querySelector(':root');
-const [
-  btnBrush,
-  btnEraser,
-  btnRainbow,
-  btnBucket,
-  btnUndo,
-  btnRandom,
-  btnClear
-] = document.querySelectorAll('button');
+const [btnBrush, btnEraser, btnRainbow, btnBucket, btnUndo, btnRandom, btnClear] =
+  document.querySelectorAll('button');
 const [inputColor, inputRange] = document.querySelectorAll('input');
 const brushSize = document.querySelector('.brush-size');
 
@@ -232,7 +225,7 @@ const hideConfirmDialogOnEsc = (ev) => {
   if (ev.key === 'Escape') {
     hideConfirmDialog();
   }
-}
+};
 
 const clearBoard = () => {
   fillCanvas('white');

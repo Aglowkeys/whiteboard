@@ -116,7 +116,7 @@ canvas {
 }
 
 .active:focus {
-outline-color: var(--primary-600  );
+  outline-color: var(--primary-600);
 }
 
 .active:active {
