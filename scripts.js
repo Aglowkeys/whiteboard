@@ -122,8 +122,15 @@ const updateCurrent = (elem) => {
 // ========== DOM TOOLS ==========
 //
 const root = document.querySelector(':root');
-const [btnBrush, btnEraser, btnRainbow, btnBucket, btnRandom, btnClear] =
-  document.querySelectorAll('button');
+const [
+  btnBrush,
+  btnEraser,
+  btnRainbow,
+  btnBucket,
+  btnUndo,
+  btnRandom,
+  btnClear
+] = document.querySelectorAll('button');
 const [inputColor, inputRange] = document.querySelectorAll('input');
 const brushSize = document.querySelector('.brush-size');
 
@@ -163,6 +170,11 @@ const selectBucketTool = () => {
   updateCurrent(btnBucket);
 };
 btnBucket.addEventListener('click', selectBucketTool);
+
+// Deshacer acción
+btnUndo.addEventListener('click', () => {
+  undoLastAction();
+});
 
 // Color random
 const selectRandomColorTool = () => {
