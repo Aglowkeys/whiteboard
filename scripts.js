@@ -100,7 +100,7 @@ window.addEventListener('mousemove', (ev) => {
 });
 
 window.addEventListener('keydown', (ev) => {
-  if (ev.key === 'z' && ev.ctrlKey) {
+  if (ev.key === 'z' && (ev.ctrlKey || ev.metaKey)) {
     undoLastAction();
   }
 });
