@@ -1,3 +1,8 @@
+@font-face {
+  font-family: 'Geist';
+  src: url('./font/Geist.woff') format('woff');
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -26,7 +31,11 @@
 }
 
 body {
-  font-family: 'Nunito', 'Helvetica', 'Arial', sans-serif;
+  font-family: 'Geist', 'Helvetica', 'Arial', sans-serif;
+}
+
+p {
+  line-height: 1.5;
 }
 
 canvas {
@@ -74,7 +83,6 @@ canvas {
 }
 
 .keybinding {
-  line-height: 1;
   position: absolute;
   bottom: 0.1rem;
   right: 0.15rem;
@@ -140,20 +148,20 @@ canvas {
   left: calc(100% + 1em);
   z-index: 1;
 
-  transform: translate(-1em, -50%);
+  transform: translate(0, -50%);
   opacity: 0;
   user-select: none;
   pointer-events: none;
 
   white-space: nowrap;
-  padding: 0.5em 1em;
+  padding: 0.4em 0.75em;
   color: var(--gray-100);
   background-color: var(--gray-800);
-  font-size: 0.7rem;
-  font-weight: 600;
+  font-size: 0.75rem;
+  font-weight: 400;
   text-align: center;
   border-radius: 0.5em;
-  transition: 0.2s ease;
+  transition: 0.3s ease;
 }
 
 .range:active .tooltip {
@@ -219,7 +227,8 @@ canvas {
 .brush-size {
   display: block;
   font-size: 0.8em;
-  font-weight: 600;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
   color: var(--gray-800);
   pointer-events: none;
   user-select: none;
@@ -267,10 +276,6 @@ canvas {
 }
 
 .modal {
-  background-color: var(--gray-100);
-  padding: 1.5em 2em;
-  border-radius: 0.5em;
-  box-shadow: var(--dialog-box-shadow);
   max-width: 40em;
   position: relative;
   opacity: 0;
@@ -294,11 +299,8 @@ canvas {
   }
 }
 
-.modal h1 {
-  line-height: 1;
-  font-size: 1.75em;
+.modal h2 {
   padding: 0 1em 0 0;
-  margin-bottom: 0.2em;
 }
 
 .modal p {
@@ -307,7 +309,7 @@ canvas {
 
 .modal a {
   color: var(--primary-500);
-  font-weight: bold;
+  font-weight: 500;
   outline: 2px solid transparent;
   transition: outline-color 200ms ease;
 }
@@ -351,21 +353,16 @@ canvas {
   position: absolute;
   bottom: calc(100% + 0.5em);
   left: 50%;
-  transform: translate(-50%, -0.25em);
+  transform: translate(-50%, 0);
 
   font-size: 0.4em;
-  font-weight: bold;
+  font-weight: 400;
   text-align: center;
   background-color: var(--primary-400);
   color: var(--primary-50);
   border-radius: 0.5em;
   white-space: nowrap;
-  transition: 0.2s ease;
-}
-
-.social a:hover + span {
-  opacity: 1;
-  transform: translate(-50%, 0);
+  transition: 0.3s ease;
 }
 
 .btn-close {
@@ -389,19 +386,18 @@ canvas {
 }
 
 .notification {
-  display: none;
+  display: flex;
+  align-items: center;
   position: absolute;
   bottom: 1rem;
   left: 1rem;
-
-  background-color: var(--gray-100);
-  padding: 1rem;
+  background-color: var(--primary-400);
+  padding: 1rem 1.25rem;
   border-radius: 0.3rem;
-  font-weight: 600;
-  font-size: 0.75rem;
+  font-weight: 500;
+  font-size: 0.8rem;
   transform: translateX(-150%);
-  color: var(--primary-400);
-  border: 2px solid currentColor;
+  color: var(--primary-100);
 }
 
 .notification.show {
@@ -430,15 +426,44 @@ canvas {
   }
 }
 
+.card {
+  --padding: 1.5em;
+  background-color: var(--gray-100);
+  padding: var(--padding);
+  border-radius: 0.5em;
+  box-shadow: var(--dialog-box-shadow);
+  color: var(--gray-700);
+}
+
+.card h2 {
+  line-height: 1;
+  font-weight: 600;
+  font-size: 1.25rem;
+  margin-bottom: 0.25em;
+}
+
+.card footer {
+  margin: 1rem calc(var(--padding) * -1) 0;
+  padding: var(--padding) var(--padding) 0;
+  border-top: 1px solid var(--gray-200);
+}
+
+.card footer p {
+  margin-bottom: 0;
+}
+
+.card footer .separator {
+  display: inline-block;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--primary-200);
+  vertical-align: middle;
+  margin: 0 0.5rem;
+}
+
 .confirm {
   max-width: 25rem;
-  background-color: var(--gray-100);
-  padding: 1.5rem 2rem;
-  color: var(--gray-800);
-  border-radius: 0.3rem;
-  font-size: 0.9rem;
-  box-shadow: var(--dialog-box-shadow);
-
   opacity: 0;
   transform: translateY(-15px);
   transition:
@@ -451,11 +476,6 @@ canvas {
   transform: translateY(0);
 }
 
-.confirm h2 {
-  font-size: 1.25rem;
-  margin-bottom: 0.25em;
-}
-
 .confirm__buttons {
   margin-top: 2rem;
 }
@@ -465,7 +485,6 @@ canvas {
   padding: 0.5rem 0.75rem;
   border-radius: 0.3rem;
   cursor: pointer;
-  font-weight: 600;
   outline: 2px solid transparent;
   transition: outline-color 200ms ease;
 }
@@ -505,7 +524,10 @@ canvas {
 @media (hover: hover) {
   .btn:hover .tooltip,
   .input-container:hover .tooltip {
-    transform: translate(0, -50%);
+    opacity: 1;
+  }
+
+  .social a:hover + span {
     opacity: 1;
   }
 
