@@ -2,7 +2,7 @@ const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 const pointer = document.getElementById('pointer');
 const root = document.querySelector(':root');
-const [btnBrush, btnEraser, btnRainbow, btnBucket, btnUndo, btnRandom, btnClear] =
+const [btnBrush, btnEraser, btnRainbow, btnRoller, btnUndo, btnRandom, btnClear] =
   document.querySelectorAll('button');
 const [inputColor, inputRange] = document.querySelectorAll('input');
 const brushSize = document.querySelector('.brush-size');
@@ -31,7 +31,7 @@ const coords = {
 
 let radius = 5; // para el input range y el puntero
 let color = '#000'; // para el selector de color
-let canvasColor = 'white'; // para cuando borramos y usamos el balde
+let canvasColor = 'white'; // para cuando borramos y usamos el rodillo
 let hue = 15; // para el input rainbow
 let isRainbow = false;
 let isErasing = false;
@@ -102,7 +102,7 @@ const stopDrawing = () => {
 };
 
 const fillCanvasOrBeginDrawing = (ev) => {
-  if (current === btnBucket) {
+  if (current === btnRoller) {
     fillCanvas(color);
     canvasColor = color;
   } else {
@@ -178,14 +178,14 @@ const selectRainbowTool = () => {
 };
 btnRainbow.addEventListener('click', selectRainbowTool);
 
-// Balde
-const selectBucketTool = () => {
+// Rodillo
+const selectRollerTool = () => {
   isRainbow = false;
   isErasing = false;
   color = inputColor.value || 'black';
-  updateCurrent(btnBucket);
+  updateCurrent(btnRoller);
 };
-btnBucket.addEventListener('click', selectBucketTool);
+btnRoller.addEventListener('click', selectRollerTool);
 
 // Deshacer acción
 btnUndo.addEventListener('click', () => {
@@ -327,7 +327,7 @@ const keyMaps = {
   1: selectBrushTool,
   2: selectEraserTool,
   3: selectRainbowTool,
-  4: selectBucketTool,
+  4: selectRollerTool,
   5: selectRandomColorTool,
   6: selectColorTool,
   7: selectSizeTool,
