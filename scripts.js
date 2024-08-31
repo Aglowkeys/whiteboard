@@ -1,17 +1,41 @@
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
+const pointer = document.getElementById('pointer');
+const root = document.querySelector(':root');
+const [btnBrush, btnEraser, btnRainbow, btnBucket, btnUndo, btnRandom, btnClear] =
+  document.querySelectorAll('button');
+const [inputColor, inputRange] = document.querySelectorAll('input');
+const brushSize = document.querySelector('.brush-size');
+const confirmOverlay = document.getElementById('confirm-overlay');
+const confirmDialog = document.getElementById('confirm');
+const [clearBoardButton, cancelClearBoardButton] =
+  confirmDialog.querySelectorAll('button');
+const [confirmTopTrap, confirmBottomTrap] = confirmDialog.querySelectorAll(
+  '[id^=confirm-focus-trap]'
+);
+const btnInfo = document.getElementById('btn-info');
+const btnClose = document.getElementById('btn-close');
+const overlay = document.getElementById('modal-overlay');
+const modal = document.getElementById('modal');
+const btnDownload = document.getElementById('btn-download');
+const notification = document.getElementById('notification');
+
+// CANVAS SETUP
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
-
-window.addEventListener('resize', () => {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-});
 
 const coords = {
   x: null,
   y: null,
 };
+
+let radius = 5; // para el input range y el puntero
+let color = '#000'; // para el selector de color
+let canvasColor = 'white'; // para cuando borramos y usamos el balde
+let hue = 15; // para el input rainbow
+let isRainbow = false;
+let isErasing = false;
+let rainbowColor = `hsl(${hue}, 80%, 70%)`;
 
 let undoSnapshots = [];
 
@@ -86,23 +110,18 @@ const fillCanvasOrBeginDrawing = (ev) => {
   }
 };
 
+window.addEventListener('resize', () => {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+});
+
 canvas.addEventListener('mousedown', fillCanvasOrBeginDrawing);
 canvas.addEventListener('touchstart', fillCanvasOrBeginDrawing);
 
-canvas.addEventListener('click', (ev) => {
-  draw(ev);
-});
+canvas.addEventListener('click', draw);
 
 canvas.addEventListener('mouseup', stopDrawing);
 canvas.addEventListener('touchend', stopDrawing);
-
-let radius = 5; // para el input range y el puntero
-let color = '#000'; // para el selector de color
-let canvasColor = 'white'; // para cuando borramos y usamos el balde
-let hue = 15; // para el input rainbow
-let isRainbow = false;
-let isErasing = false;
-let rainbowColor = `hsl(${hue}, 80%, 70%)`;
 
 // Puntero
 window.addEventListener('mousemove', (ev) => {
@@ -125,23 +144,14 @@ const getRandomColor = () => {
   color = '#' + ((Math.random() * 0xffffff) << 0).toString(16).padStart(6, '0');
 };
 
+let current = btnBrush; // nuestra herramienta activa
+btnBrush.classList.add('active');
+
 const updateCurrent = (elem) => {
   current.classList.remove('active');
   current = elem;
   current.classList.add('active');
 };
-
-//
-// ========== DOM TOOLS ==========
-//
-const root = document.querySelector(':root');
-const [btnBrush, btnEraser, btnRainbow, btnBucket, btnUndo, btnRandom, btnClear] =
-  document.querySelectorAll('button');
-const [inputColor, inputRange] = document.querySelectorAll('input');
-const brushSize = document.querySelector('.brush-size');
-
-let current = btnBrush; // nuestra herramienta activa
-btnBrush.classList.add('active');
 
 // Pincel
 const selectBrushTool = () => {
@@ -206,15 +216,6 @@ inputRange.addEventListener('input', (ev) => {
   pointer.style.height = size;
 });
 
-// Limpiar pizarra
-const confirmOverlay = document.getElementById('confirm-overlay');
-const confirmDialog = document.getElementById('confirm');
-const [clearBoardButton, cancelClearBoardButton] =
-  confirmDialog.querySelectorAll('button');
-const [confirmTopTrap, confirmBottomTrap] = confirmDialog.querySelectorAll(
-  '[id^=confirm-focus-trap]'
-);
-
 confirmTopTrap.addEventListener('focus', () => cancelClearBoardButton.focus());
 confirmBottomTrap.addEventListener('focus', () => clearBoardButton.focus());
 
@@ -249,14 +250,6 @@ const clearBoard = () => {
 btnClear.addEventListener('click', showConfirmDialog);
 clearBoardButton.addEventListener('click', clearBoard);
 cancelClearBoardButton.addEventListener('click', hideConfirmDialog);
-
-//
-// ========== MODAL ==========
-//
-const btnInfo = document.getElementById('btn-info');
-const btnClose = document.getElementById('btn-close');
-const overlay = document.getElementById('modal-overlay');
-const modal = document.getElementById('modal');
 
 /* Managing Focus Trap inside the modal */
 const [topFocusTrap, bottomFocusTrap] = modal.querySelectorAll('[id^=modal-focus-trap]');
@@ -308,9 +301,6 @@ const closeModalOnEsc = (ev) => {
 //
 // ========== DESCARGAR IMAGEN ==========
 //
-const btnDownload = document.getElementById('btn-download');
-const notification = document.getElementById('notification');
-
 btnDownload.addEventListener('click', () => {
   btnDownload.href = canvas.toDataURL('image/png');
   notification.classList.add('show');

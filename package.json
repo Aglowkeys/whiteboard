@@ -1,0 +1,17 @@
+{
+  "name": "whiteboard",
+  "version": "1.0.0",
+  "description": "A simple drawing app created in order to learn and practice the usage of HTML Canvas.",
+  "main": "scripts.js",
+  "scripts": {
+    "lint": "eslint ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@eslint/js": "9.9.1",
+    "eslint": "9.9.1",
+    "globals": "15.9.0"
+  }
+}
