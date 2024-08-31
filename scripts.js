@@ -94,6 +94,7 @@ canvas.addEventListener('click', (ev) => {
 });
 
 canvas.addEventListener('mouseup', stopDrawing);
+canvas.addEventListener('touchend', stopDrawing);
 
 let radius = 5; // para el input range y el puntero
 let color = '#000'; // para el selector de color
