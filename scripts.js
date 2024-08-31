@@ -170,7 +170,7 @@ const selectEraserTool = () => {
 };
 btnEraser.addEventListener('click', selectEraserTool);
 
-// Arcoiris
+// Arcoíris
 const selectRainbowTool = () => {
   updateCurrent(btnRainbow);
   isRainbow = true;
