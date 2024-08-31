@@ -100,7 +100,7 @@ canvas {
   color: var(--primary-400);
 }
 
-.btn:focus,
+.btn:focus-visible,
 .input-container:focus-within {
   outline-color: var(--primary-200);
 }
@@ -115,7 +115,7 @@ canvas {
   color: var(--primary-100);
 }
 
-.active:focus {
+.active:focus-visible {
   outline-color: var(--primary-600);
 }
 
@@ -209,8 +209,8 @@ canvas {
 
 .input-range:hover::-webkit-slider-thumb,
 .input-range:hover::-moz-range-thumb,
-.input-range:focus::-webkit-slider-thumb,
-.input-range:focus::-moz-range-thumb {
+.input-range:focus-visible::-webkit-slider-thumb,
+.input-range:focus-visible::-moz-range-thumb {
   transform: scale(1.1);
   border: 2px solid var(--primary-500);
   background-color: var(--primary-50);
@@ -316,7 +316,7 @@ canvas {
   text-decoration: none;
 }
 
-.modal a:focus {
+.modal a:focus-visible {
   outline-color: var(--primary-200);
 }
 
@@ -480,7 +480,7 @@ canvas {
   background-color: var(--primary-500);
 }
 
-.confirm__button-ok:focus {
+.confirm__button-ok:focus-visible {
   outline-color: var(--primary-600);
 }
 
@@ -495,6 +495,6 @@ canvas {
   color: var(--primary-500);
 }
 
-.confirm__button-cancel:focus {
+.confirm__button-cancel:focus-visible {
   outline-color: var(--primary-200);
 }
