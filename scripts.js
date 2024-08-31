@@ -31,8 +31,11 @@ const undoLastAction = () => {
 };
 
 const reposition = (ev) => {
-  coords.x = ev.x - canvas.offsetLeft;
-  coords.y = ev.y - canvas.offsetTop;
+  const xCoord = ev.type === 'touchmove' ? ev.touches[0].clientX : ev.clientX;
+  const yCoord = ev.type === 'touchmove' ? ev.touches[0].clientY : ev.clientY;
+
+  coords.x = xCoord - canvas.offsetLeft;
+  coords.y = yCoord - canvas.offsetTop;
 };
 
 const draw = (ev) => {
@@ -60,22 +63,27 @@ const fillCanvas = (color) => {
 
 const beginDrawing = (ev) => {
   canvas.addEventListener('mousemove', draw);
+  canvas.addEventListener('touchmove', draw);
   reposition(ev);
 };
 
 const stopDrawing = () => {
   canvas.removeEventListener('mousemove', draw);
+  canvas.addEventListener('touchmove', draw);
   addSnapshotToUndoHistory();
 };
 
-canvas.addEventListener('mousedown', (ev) => {
+const fillCanvasOrBeginDrawing = (ev) => {
   if (current === btnBucket) {
     fillCanvas(color);
     canvasColor = color;
   } else {
     beginDrawing(ev);
   }
-});
+};
+
+canvas.addEventListener('mousedown', fillCanvasOrBeginDrawing);
+canvas.addEventListener('touchstart', fillCanvasOrBeginDrawing);
 
 canvas.addEventListener('click', (ev) => {
   draw(ev);
