@@ -31,6 +31,10 @@ const undoLastAction = () => {
 };
 
 const reposition = (ev) => {
+  if (ev.target === canvas) {
+    ev.preventDefault();
+  }
+
   const xCoord = ev.type === 'touchmove' ? ev.touches[0].clientX : ev.clientX;
   const yCoord = ev.type === 'touchmove' ? ev.touches[0].clientY : ev.clientY;
 
