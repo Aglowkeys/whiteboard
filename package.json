@@ -7,7 +7,7 @@
     "lint": "eslint ."
   },
   "keywords": [],
-  "author": "",
+  "author": "Emiliano Alfonso <emilianoalfonso1989@gmail.com>",
   "license": "ISC",
   "devDependencies": {
     "@eslint/js": "9.9.1",
