@@ -150,10 +150,12 @@ canvas {
   transition: 0.2s ease;
 }
 
-.btn:hover .tooltip,
-.input-container:hover .tooltip {
-  transform: translate(0, -50%);
-  opacity: 1;
+@media (hover: hover) {
+  .btn:hover .tooltip,
+  .input-container:hover .tooltip {
+    transform: translate(0, -50%);
+    opacity: 1;
+  }
 }
 
 .range:active .tooltip {
