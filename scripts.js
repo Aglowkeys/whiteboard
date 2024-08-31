@@ -2,8 +2,15 @@ const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 const pointer = document.getElementById('pointer');
 const root = document.querySelector(':root');
-const [btnBrush, btnEraser, btnRainbow, btnRoller, btnUndo, btnRandom, btnClear] =
-  document.querySelectorAll('button');
+const [
+  btnBrush,
+  btnEraser,
+  btnRainbow,
+  btnRoller,
+  btnUndo,
+  btnRandom,
+  btnClear,
+] = document.querySelectorAll('button');
 const [inputColor, inputRange] = document.querySelectorAll('input');
 const brushSize = document.querySelector('.brush-size');
 const confirmOverlay = document.getElementById('confirm-overlay');
@@ -11,7 +18,7 @@ const confirmDialog = document.getElementById('confirm');
 const [clearBoardButton, cancelClearBoardButton] =
   confirmDialog.querySelectorAll('button');
 const [confirmTopTrap, confirmBottomTrap] = confirmDialog.querySelectorAll(
-  '[id^=confirm-focus-trap]'
+  '[id^=confirm-focus-trap]',
 );
 const btnInfo = document.getElementById('btn-info');
 const btnClose = document.getElementById('btn-close');
@@ -252,10 +259,13 @@ clearBoardButton.addEventListener('click', clearBoard);
 cancelClearBoardButton.addEventListener('click', hideConfirmDialog);
 
 /* Managing Focus Trap inside the modal */
-const [topFocusTrap, bottomFocusTrap] = modal.querySelectorAll('[id^=modal-focus-trap]');
+const [topFocusTrap, bottomFocusTrap] = modal.querySelectorAll(
+  '[id^=modal-focus-trap]',
+);
 const allFocusableElements = modal.querySelectorAll('button, a');
 const firstFocusableElement = allFocusableElements[0];
-const lastFocusableElement = allFocusableElements[allFocusableElements.length - 1];
+const lastFocusableElement =
+  allFocusableElements[allFocusableElements.length - 1];
 
 const goToFirstFocusableElement = () => firstFocusableElement.focus();
 const goToLastFocusableElement = () => lastFocusableElement.focus();

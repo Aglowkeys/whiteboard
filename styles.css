@@ -61,7 +61,9 @@ canvas {
   border-radius: 0.3rem;
   position: relative;
   outline: 2px solid transparent;
-  transition: background-color 200ms, outline-color 200ms;
+  transition:
+    background-color 200ms,
+    outline-color 200ms;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -107,7 +109,9 @@ canvas {
 
 .btn:active:not(.active) {
   outline-color: var(--primary-300);
-  transition: background-color 0ms, outline-color 100ms;
+  transition:
+    background-color 0ms,
+    outline-color 100ms;
 }
 
 .active {
@@ -120,7 +124,9 @@ canvas {
 }
 
 .active:active {
-  transition: background-color 0ms, outline-color 200ms;
+  transition:
+    background-color 0ms,
+    outline-color 200ms;
   background-color: var(--primary-500);
 }
 
@@ -435,7 +441,9 @@ canvas {
 
   opacity: 0;
   transform: translateY(-15px);
-  transition: opacity 0.2s ease, transform 0.2s ease;
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
 }
 
 .confirm.visible {
