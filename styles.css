@@ -150,14 +150,6 @@ canvas {
   transition: 0.2s ease;
 }
 
-@media (hover: hover) {
-  .btn:hover .tooltip,
-  .input-container:hover .tooltip {
-    transform: translate(0, -50%);
-    opacity: 1;
-  }
-}
-
 .range:active .tooltip {
   opacity: 0;
 }
@@ -377,6 +369,7 @@ canvas {
 }
 
 #pointer {
+  display: none; /* We show it only if device supports hovers, in the media query at the end */
   background-color: transparent;
   border: 2px solid #ddd;
   border-radius: 50%;
@@ -499,4 +492,16 @@ canvas {
 
 .confirm__button-cancel:focus-visible {
   outline-color: var(--primary-200);
+}
+
+@media (hover: hover) {
+  .btn:hover .tooltip,
+  .input-container:hover .tooltip {
+    transform: translate(0, -50%);
+    opacity: 1;
+  }
+
+  #pointer {
+    display: block;
+  }
 }
