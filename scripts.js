@@ -217,8 +217,8 @@ inputColor.addEventListener('change', (ev) => {
 // Tamaño pincel
 inputRange.addEventListener('input', (ev) => {
   radius = ev.target.value;
-  let size = radius + ' px';
-  brushSize.innerText = size;
+  brushSize.innerText = `${radius} px`;
+  const size = radius + 'px';
   pointer.style.width = size;
   pointer.style.height = size;
 });
