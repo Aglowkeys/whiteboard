@@ -169,6 +169,7 @@ canvas {
 }
 
 .range .keybinding {
+  display: none;
   bottom: -0.4rem;
   right: 0;
   z-index: 1;
@@ -532,6 +533,10 @@ canvas {
   }
 
   #pointer {
+    display: block;
+  }
+
+  .keybinding {
     display: block;
   }
 }
