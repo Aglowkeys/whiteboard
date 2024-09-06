@@ -94,6 +94,7 @@ const draw = (ev) => {
 const fillCanvas = (color) => {
   ctx.fillStyle = color;
   ctx.fillRect(0, 0, canvas.width, canvas.height);
+  canvasColor = color;
 };
 
 const beginDrawing = (ev) => {
@@ -111,7 +112,6 @@ const stopDrawing = () => {
 const fillCanvasOrBeginDrawing = (ev) => {
   if (current === btnRoller) {
     fillCanvas(color);
-    canvasColor = color;
   } else {
     beginDrawing(ev);
   }
