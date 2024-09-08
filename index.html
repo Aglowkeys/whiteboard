@@ -27,75 +27,19 @@
 
     <link rel="stylesheet" href="styles.css" />
     <link rel="shortcut icon" href="/img/favicon.png" type="image/x-icon" />
-    <script defer src="scripts.js"></script>
+    <script defer src="./build/index.js" type="module"></script>
     <title>Whiteboard</title>
   </head>
 
   <body>
-    <section class="tools-container">
-      <button id="btn-brush" class="btn btn-brush">
+    <aside id="toolbar" class="toolbar">
+      <button id="btn-collapse" class="btn btn-collapse">
         <svg
           aria-hidden="true"
+          aria-controls="tools-container"
           xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          stroke-width="2"
-          stroke="currentColor"
-          fill="none"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <path d="M3 21v-4a4 4 0 1 1 4 4h-4"></path>
-          <path d="M21 3a16 16 0 0 0 -12.8 10.2"></path>
-          <path d="M21 3a16 16 0 0 1 -10.2 12.8"></path>
-          <path d="M10.6 9a9 9 0 0 1 4.4 4.4"></path>
-        </svg>
-        <span class="keybinding">1</span>
-        <span class="tooltip">Pincel</span>
-      </button>
-
-      <button id="btn-eraser" class="btn btn-eraser">
-        <svg
-          aria-hidden="true"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          stroke-width="2"
-          stroke="currentColor"
-          fill="none"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <path
-            d="M19 20h-10.5l-4.21 -4.3a1 1 0 0 1 0 -1.41l10 -10a1 1 0 0 1 1.41 0l5 5a1 1 0 0 1 0 1.41l-9.2 9.3"
-          ></path>
-          <path d="M18 13.3l-6.3 -6.3"></path>
-        </svg>
-        <span class="keybinding">2</span>
-        <span class="tooltip">Borrador</span>
-      </button>
-
-      <button id="btn-rainbow" class="btn btn-rainbow">
-        <svg
-          aria-hidden="true"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          stroke-width="2"
-          stroke="currentColor"
-          fill="none"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <path d="M22 17c0 -5.523 -4.477 -10 -10 -10s-10 4.477 -10 10"></path>
-          <path d="M18 17a6 6 0 1 0 -12 0"></path>
-          <path d="M14 17a2 2 0 1 0 -4 0"></path>
-        </svg>
-        <span class="keybinding">3</span>
-        <span class="tooltip">Pincel arcoíris</span>
-      </button>
-
-      <button id="btn-roller" class="btn btn-roller">
-        <svg
-          aria-hidden="true"
-          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
@@ -104,173 +48,253 @@
           stroke-linejoin="round"
         >
           <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-          <path
-            d="M5 3m0 2a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v2a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2z"
+          <path d="M7 11l5 -5l5 5" />
+          <path d="M7 17l5 -5l5 5" />
+        </svg>
+      </button>
+
+      <div aria-expanded="true" class="tools-container" id="tools-container">
+        <button id="btn-brush" class="btn btn-brush">
+          <svg
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            stroke-width="2"
+            stroke="currentColor"
+            fill="none"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M3 21v-4a4 4 0 1 1 4 4h-4"></path>
+            <path d="M21 3a16 16 0 0 0 -12.8 10.2"></path>
+            <path d="M21 3a16 16 0 0 1 -10.2 12.8"></path>
+            <path d="M10.6 9a9 9 0 0 1 4.4 4.4"></path>
+          </svg>
+          <span class="keybinding">1</span>
+          <span class="tooltip">Pincel</span>
+        </button>
+
+        <button id="btn-eraser" class="btn btn-eraser">
+          <svg
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            stroke-width="2"
+            stroke="currentColor"
+            fill="none"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path
+              d="M19 20h-10.5l-4.21 -4.3a1 1 0 0 1 0 -1.41l10 -10a1 1 0 0 1 1.41 0l5 5a1 1 0 0 1 0 1.41l-9.2 9.3"
+            ></path>
+            <path d="M18 13.3l-6.3 -6.3"></path>
+          </svg>
+          <span class="keybinding">2</span>
+          <span class="tooltip">Borrador</span>
+        </button>
+
+        <button id="btn-rainbow" class="btn btn-rainbow">
+          <svg
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            stroke-width="2"
+            stroke="currentColor"
+            fill="none"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path
+              d="M22 17c0 -5.523 -4.477 -10 -10 -10s-10 4.477 -10 10"
+            ></path>
+            <path d="M18 17a6 6 0 1 0 -12 0"></path>
+            <path d="M14 17a2 2 0 1 0 -4 0"></path>
+          </svg>
+          <span class="keybinding">3</span>
+          <span class="tooltip">Pincel arcoíris</span>
+        </button>
+
+        <button id="btn-roller" class="btn btn-roller">
+          <svg
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+            <path
+              d="M5 3m0 2a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v2a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2z"
+            />
+            <path d="M19 6h1a2 2 0 0 1 2 2a5 5 0 0 1 -5 5l-5 0v2" />
+            <path
+              d="M10 15m0 1a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1z"
+            />
+          </svg>
+          <span class="keybinding">4</span>
+          <span class="tooltip">Cubrir lienzo</span>
+        </button>
+
+        <button id="btn-undo" class="btn">
+          <svg
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+            <path d="M9 11l-4 4l4 4m-4 -4h11a4 4 0 0 0 0 -8h-1"></path>
+          </svg>
+          <span class="tooltip">Deshacer</span>
+        </button>
+
+        <span aria-hidden="true" class="divider"></span>
+
+        <button id="btn-random" class="btn btn-random">
+          <svg
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            stroke-width="2"
+            stroke="currentColor"
+            fill="none"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path
+              d="M18.064 10.877l-4.89 -7.26c-.42 -.625 -1.287 -.803 -1.936 -.397a1.376 1.376 0 0 0 -.41 .397l-4.893 7.26c-1.695 2.838 -1.035 6.441 1.567 8.546c2.203 1.782 5.259 2.056 7.723 .82"
+            ></path>
+            <path d="M19 22v.01"></path>
+            <path
+              d="M19 19a2.003 2.003 0 0 0 .914 -3.782a1.98 1.98 0 0 0 -2.414 .483"
+            ></path>
+          </svg>
+          <span class="keybinding">5</span>
+          <span class="tooltip">Color al azar</span>
+        </button>
+
+        <div class="input-container btn">
+          <input
+            id="btn-color"
+            class="input-color"
+            type="color"
+            autocomplete="off"
           />
-          <path d="M19 6h1a2 2 0 0 1 2 2a5 5 0 0 1 -5 5l-5 0v2" />
-          <path
-            d="M10 15m0 1a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1z"
+          <svg
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            stroke-width="2"
+            stroke="currentColor"
+            fill="none"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path
+              d="M12 21a9 9 0 0 1 0 -18c4.97 0 9 3.582 9 8c0 1.06 -.474 2.078 -1.318 2.828c-.844 .75 -1.989 1.172 -3.182 1.172h-2.5a2 2 0 0 0 -1 3.75a1.3 1.3 0 0 1 -1 2.25"
+            ></path>
+            <path d="M8.5 10.5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
+            <path d="M12.5 7.5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
+            <path d="M16.5 10.5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
+          </svg>
+          <span class="keybinding">6</span>
+          <span class="tooltip">Seleccionar color</span>
+          <span class="current-color" aria-hidden="true"></span>
+        </div>
+
+        <div class="input-container range">
+          <input
+            id="btn-size"
+            type="range"
+            min="5"
+            max="50"
+            class="input-range"
+            value="5"
+            autocomplete="off"
           />
-        </svg>
-        <span class="keybinding">4</span>
-        <span class="tooltip">Cubrir lienzo</span>
-      </button>
+          <span class="keybinding">7</span>
+          <span class="tooltip">Tamaño del pincel</span>
+        </div>
+        <span class="brush-size">5 px</span>
 
-      <button id="btn-undo" class="btn">
-        <svg
-          aria-hidden="true"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+        <span aria-hidden="true" class="divider"></span>
+
+        <button id="btn-clear" class="btn btn-clear">
+          <svg
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            stroke-width="2"
+            stroke="currentColor"
+            fill="none"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M14 3v4a1 1 0 0 0 1 1h4"></path>
+            <path
+              d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z"
+            ></path>
+          </svg>
+          <span class="keybinding">8</span>
+          <span class="tooltip">Nuevo lienzo</span>
+        </button>
+
+        <a
+          href="#"
+          id="btn-download"
+          target="_blank"
+          download="mi-dibujo.png"
+          class="btn btn-download"
         >
-          <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-          <path d="M9 11l-4 4l4 4m-4 -4h11a4 4 0 0 0 0 -8h-1"></path>
-        </svg>
-        <span class="tooltip">Deshacer</span>
-      </button>
+          <svg
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            stroke-width="2"
+            stroke="currentColor"
+            fill="none"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M14 3v4a1 1 0 0 0 1 1h4"></path>
+            <path
+              d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z"
+            ></path>
+            <path d="M12 17v-6"></path>
+            <path d="M9.5 14.5l2.5 2.5l2.5 -2.5"></path>
+          </svg>
+          <span class="keybinding">9</span>
+          <span class="tooltip">Descargar dibujo</span>
+        </a>
 
-      <span aria-hidden="true" class="divider"></span>
-
-      <button id="btn-random" class="btn btn-random">
-        <svg
-          aria-hidden="true"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          stroke-width="2"
-          stroke="currentColor"
-          fill="none"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <path
-            d="M18.064 10.877l-4.89 -7.26c-.42 -.625 -1.287 -.803 -1.936 -.397a1.376 1.376 0 0 0 -.41 .397l-4.893 7.26c-1.695 2.838 -1.035 6.441 1.567 8.546c2.203 1.782 5.259 2.056 7.723 .82"
-          ></path>
-          <path d="M19 22v.01"></path>
-          <path
-            d="M19 19a2.003 2.003 0 0 0 .914 -3.782a1.98 1.98 0 0 0 -2.414 .483"
-          ></path>
-        </svg>
-        <span class="keybinding">5</span>
-        <span class="tooltip">Color al azar</span>
-      </button>
-
-      <div class="input-container btn">
-        <input
-          id="btn-color"
-          class="input-color"
-          type="color"
-          autocomplete="off"
-        />
-        <svg
-          aria-hidden="true"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          stroke-width="2"
-          stroke="currentColor"
-          fill="none"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <path
-            d="M12 21a9 9 0 0 1 0 -18c4.97 0 9 3.582 9 8c0 1.06 -.474 2.078 -1.318 2.828c-.844 .75 -1.989 1.172 -3.182 1.172h-2.5a2 2 0 0 0 -1 3.75a1.3 1.3 0 0 1 -1 2.25"
-          ></path>
-          <path d="M8.5 10.5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
-          <path d="M12.5 7.5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
-          <path d="M16.5 10.5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
-        </svg>
-        <span class="keybinding">6</span>
-        <span class="tooltip">Seleccionar color</span>
-        <span class="current-color" aria-hidden="true"></span>
+        <button id="btn-info" class="btn btn-info">
+          <svg
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            stroke-width="2"
+            stroke="currentColor"
+            fill="none"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"></path>
+            <path d="M12 9h.01"></path>
+            <path d="M11 12h1v4h1"></path>
+          </svg>
+          <span class="keybinding">0</span>
+          <span class="tooltip">Información</span>
+        </button>
       </div>
-
-      <div class="input-container range">
-        <input
-          id="btn-size"
-          type="range"
-          min="5"
-          max="50"
-          class="input-range"
-          value="5"
-          autocomplete="off"
-        />
-        <span class="keybinding">7</span>
-        <span class="tooltip">Tamaño del pincel</span>
-      </div>
-      <span class="brush-size">5 px</span>
-
-      <span aria-hidden="true" class="divider"></span>
-
-      <button id="btn-clear" class="btn btn-clear">
-        <svg
-          aria-hidden="true"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          stroke-width="2"
-          stroke="currentColor"
-          fill="none"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <path d="M14 3v4a1 1 0 0 0 1 1h4"></path>
-          <path
-            d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z"
-          ></path>
-        </svg>
-        <span class="keybinding">8</span>
-        <span class="tooltip">Nuevo lienzo</span>
-      </button>
-
-      <a
-        href="#"
-        id="btn-download"
-        target="_blank"
-        download="mi-dibujo.png"
-        class="btn btn-download"
-      >
-        <svg
-          aria-hidden="true"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          stroke-width="2"
-          stroke="currentColor"
-          fill="none"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <path d="M14 3v4a1 1 0 0 0 1 1h4"></path>
-          <path
-            d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z"
-          ></path>
-          <path d="M12 17v-6"></path>
-          <path d="M9.5 14.5l2.5 2.5l2.5 -2.5"></path>
-        </svg>
-        <span class="keybinding">9</span>
-        <span class="tooltip">Descargar dibujo</span>
-      </a>
-
-      <button id="btn-info" class="btn btn-info">
-        <svg
-          aria-hidden="true"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          stroke-width="2"
-          stroke="currentColor"
-          fill="none"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"></path>
-          <path d="M12 9h.01"></path>
-          <path d="M11 12h1v4h1"></path>
-        </svg>
-        <span class="keybinding">0</span>
-        <span class="tooltip">Información</span>
-      </button>
-    </section>
+    </aside>
 
     <canvas id="canvas"></canvas>
 
