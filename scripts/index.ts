@@ -174,12 +174,18 @@ const updateCurrent = (elem: HTMLElement) => {
 // Minimizar barra de herramientas
 btnCollapseToolbar.addEventListener('click', () => {
   const TOOLS_CONTAINER_COLLAPSED_CLASS = 'tools-container--collapsed';
+
+  toolsContainer.classList.toggle(TOOLS_CONTAINER_COLLAPSED_CLASS);
+  btnCollapseToolbar.classList.toggle('btn-collapse--collapsed');
+
   const isCollapsed = toolsContainer.className.includes(
     TOOLS_CONTAINER_COLLAPSED_CLASS,
   );
 
-  toolsContainer.classList.toggle(TOOLS_CONTAINER_COLLAPSED_CLASS);
-  btnCollapseToolbar.classList.toggle('btn-collapse--collapsed');
+  btnCollapseToolbar.setAttribute(
+    'aria-label',
+    `${isCollapsed ? 'Expandir' : 'Contraer'} barra de herramientas`,
+  );
   toolsContainer.setAttribute('aria-expanded', `${!isCollapsed}`);
 });
 
