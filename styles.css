@@ -46,8 +46,9 @@ canvas {
   height: 100%;
 }
 
-.tools-container {
+.toolbar {
   --_gap: 0.25rem;
+  --_padding: 1rem;
   z-index: 1;
   background-color: var(--gray-100);
   border: 1px solid var(--gray-200);
@@ -55,13 +56,28 @@ canvas {
   position: absolute;
   left: 1rem;
   top: 1rem;
-  padding: 1rem;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.tools-container .btn:not(:last-child) {
+.tools-container {
+  padding: 0 var(--_padding) var(--_padding);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.tools-container--collapsed {
+  padding: 0 var(--_padding);
+  height: 0;
+}
+
+.tools-container--collapsed * {
+  visibility: hidden;
+}
+
+.toolbar .btn:not(:last-child) {
   margin-bottom: var(--_gap);
 }
 
@@ -121,6 +137,32 @@ canvas {
   transition:
     background-color 0ms,
     outline-color 100ms;
+}
+
+.btn-collapse {
+  /*
+   * Not sure why I can't use negative margins
+   * to undo the --_padding the parent has. 🤔
+   * I had to resort to changing the width instead.
+  */
+  --_border-radius: 0.2rem;
+  width: 100%;
+  height: auto;
+  padding: 0.15rem 0;
+  border-radius: var(--_border-radius) var(--_border-radius) 0 0;
+}
+
+.btn-collapse svg {
+  transition: transform 0.2s;
+}
+
+.btn.btn-collapse.btn-collapse--collapsed {
+  margin-bottom: 0;
+  border-radius: var(--_border-radius);
+}
+
+.btn-collapse--collapsed svg {
+  transform: rotate(180deg);
 }
 
 .active {
