@@ -1,11 +1,24 @@
 import * as esbuild from 'esbuild';
+const TIMER_LABEL = '✨ Build successful';
 
-await esbuild
-  .build({
-    entryPoints: ['./pre-build/index.js'],
+try {
+  console.time(TIMER_LABEL);
+  const context = await esbuild.context({
+    entryPoints: ['./scripts/index.ts'],
     outdir: './build',
     bundle: true,
     minify: true,
-    allowOverwrite: true,
-  })
-  .catch(() => process.exit(1));
+  });
+  console.timeEnd(TIMER_LABEL);
+  const isWatching = process.argv.includes('--watch');
+  context.watch();
+
+  if (isWatching) {
+    console.log('Watching for changes...');
+  } else {
+    context.dispose();
+  }
+} catch (e) {
+  console.timeEnd(TIMER_LABEL);
+  process.exit(1);
+}
