@@ -3,17 +3,22 @@
   "version": "1.0.0",
   "description": "A simple drawing app created in order to learn and practice the usage of HTML Canvas.",
   "main": "scripts.js",
+  "type": "module",
   "scripts": {
-    "lint": "eslint . --ignore-path .gitignore",
-    "format": "prettier . --write --ignore-path .gitignore"
+    "lint": "eslint",
+    "format": "prettier . --write --ignore-path .gitignore",
+    "build": "tsc && node ./esbuild.config.mjs"
   },
   "keywords": [],
   "author": "Emiliano Alfonso <emilianoalfonso1989@gmail.com>",
   "license": "ISC",
   "devDependencies": {
-    "@eslint/js": "9.9.1",
+    "@eslint/js": "9.10.0",
+    "esbuild": "0.23.1",
     "eslint": "9.9.1",
     "globals": "15.9.0",
-    "prettier": "3.3.3"
+    "prettier": "3.3.3",
+    "typescript": "5.5.4",
+    "typescript-eslint": "8.4.0"
   }
 }
