@@ -1,39 +1,47 @@
-const canvas = document.getElementById('canvas');
-const ctx = canvas.getContext('2d');
-const pointer = document.getElementById('pointer');
-const root = document.querySelector(':root');
-const [
-  btnBrush,
-  btnEraser,
-  btnRainbow,
-  btnRoller,
-  btnUndo,
-  btnRandom,
-  btnClear,
-] = document.querySelectorAll('button');
-const [inputColor, inputRange] = document.querySelectorAll('input');
-const brushSize = document.querySelector('.brush-size');
-const confirmOverlay = document.getElementById('confirm-overlay');
-const confirmDialog = document.getElementById('confirm');
+import type { CanvasEvent } from './types/types';
+
+const $ = <T extends Element = HTMLElement>(selector: string): T =>
+  document.querySelector(selector)!;
+const $$ = <T extends Element = HTMLElement>(selector: string): NodeListOf<T> =>
+  document.querySelectorAll(selector);
+
+const canvas = $<HTMLCanvasElement>('#canvas');
+const ctx = canvas.getContext('2d')!;
+const pointer = $('#pointer');
+const root = $(':root');
+
+const toolsContainer = $('#tools-container');
+const btnCollapseToolbar = $('#btn-collapse');
+const btnBrush = $('#btn-brush');
+const btnEraser = $('#btn-eraser');
+const btnRainbow = $('#btn-rainbow');
+const btnRoller = $('#btn-roller');
+const btnUndo = $('#btn-undo');
+const btnRandom = $('#btn-random');
+const btnClear = $('#btn-clear');
+const [inputColor, inputRange] = $$<HTMLInputElement>('input');
+const brushSize = $('.brush-size');
+const confirmOverlay = $('#confirm-overlay');
+const confirmDialog = $('#confirm');
 const [clearBoardButton, cancelClearBoardButton] =
   confirmDialog.querySelectorAll('button');
 const [confirmTopTrap, confirmBottomTrap] = confirmDialog.querySelectorAll(
   '[id^=confirm-focus-trap]',
 );
-const btnInfo = document.getElementById('btn-info');
-const btnClose = document.getElementById('btn-close');
-const overlay = document.getElementById('modal-overlay');
-const modal = document.getElementById('modal');
-const btnDownload = document.getElementById('btn-download');
-const notification = document.getElementById('notification');
+const btnInfo = $('#btn-info');
+const btnClose = $('#btn-close');
+const overlay = $('#modal-overlay');
+const modal = $('#modal');
+const btnDownload = $<HTMLAnchorElement>('#btn-download');
+const notification = $('#notification');
 
 // CANVAS SETUP
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
 const coords = {
-  x: null,
-  y: null,
+  x: 0,
+  y: 0,
 };
 
 let radius = 5; // para el input range y el puntero
@@ -44,7 +52,7 @@ let isRainbow = false;
 let isErasing = false;
 let rainbowColor = `hsl(${hue}, 80%, 70%)`;
 
-let undoSnapshots = [];
+let undoSnapshots: Array<ImageData> = [];
 
 const addSnapshotToUndoHistory = () => {
   undoSnapshots.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
@@ -61,19 +69,22 @@ const undoLastAction = () => {
   }
 };
 
-const reposition = (ev) => {
+const isTouchEvent = (ev: Event): ev is TouchEvent =>
+  ev.type.startsWith('touch');
+
+const reposition = (ev: CanvasEvent) => {
   if (ev.target === canvas) {
     ev.preventDefault();
   }
 
-  const xCoord = ev.type === 'touchmove' ? ev.touches[0].clientX : ev.clientX;
-  const yCoord = ev.type === 'touchmove' ? ev.touches[0].clientY : ev.clientY;
+  const xCoord = isTouchEvent(ev) ? ev.touches[0].clientX : ev.clientX;
+  const yCoord = isTouchEvent(ev) ? ev.touches[0].clientY : ev.clientY;
 
   coords.x = xCoord - canvas.offsetLeft;
   coords.y = yCoord - canvas.offsetTop;
 };
 
-const draw = (ev) => {
+const draw = (ev: CanvasEvent) => {
   if (isErasing) color = canvasColor;
 
   ctx.beginPath();
@@ -91,13 +102,13 @@ const draw = (ev) => {
   }
 };
 
-const fillCanvas = (color) => {
+const fillCanvas = (color: string) => {
   ctx.fillStyle = color;
   ctx.fillRect(0, 0, canvas.width, canvas.height);
   canvasColor = color;
 };
 
-const beginDrawing = (ev) => {
+const beginDrawing = (ev: CanvasEvent) => {
   canvas.addEventListener('mousemove', draw);
   canvas.addEventListener('touchmove', draw);
   reposition(ev);
@@ -109,7 +120,7 @@ const stopDrawing = () => {
   addSnapshotToUndoHistory();
 };
 
-const fillCanvasOrBeginDrawing = (ev) => {
+const fillCanvasOrBeginDrawing = (ev: CanvasEvent) => {
   if (current === btnRoller) {
     fillCanvas(color);
   } else {
@@ -154,11 +165,23 @@ const getRandomColor = () => {
 let current = btnBrush; // nuestra herramienta activa
 btnBrush.classList.add('active');
 
-const updateCurrent = (elem) => {
+const updateCurrent = (elem: HTMLElement) => {
   current.classList.remove('active');
   current = elem;
   current.classList.add('active');
 };
+
+// Minimizar barra de herramientas
+btnCollapseToolbar.addEventListener('click', () => {
+  const TOOLS_CONTAINER_COLLAPSED_CLASS = 'tools-container--collapsed';
+  const isCollapsed = toolsContainer.className.includes(
+    TOOLS_CONTAINER_COLLAPSED_CLASS,
+  );
+
+  toolsContainer.classList.toggle(TOOLS_CONTAINER_COLLAPSED_CLASS);
+  btnCollapseToolbar.classList.toggle('btn-collapse--collapsed');
+  toolsContainer.setAttribute('aria-expanded', `${!isCollapsed}`);
+});
 
 // Pincel
 const selectBrushTool = () => {
@@ -209,14 +232,14 @@ const selectRandomColorTool = () => {
 btnRandom.addEventListener('click', selectRandomColorTool);
 
 // Selector de color
-inputColor.addEventListener('change', (ev) => {
-  color = ev.target.value;
-  root.style.setProperty('--current-color', ev.target.value);
+inputColor.addEventListener('change', () => {
+  color = inputColor.value;
+  root.style.setProperty('--current-color', inputColor.value);
 });
 
 // Tamaño pincel
-inputRange.addEventListener('input', (ev) => {
-  radius = ev.target.value;
+inputRange.addEventListener('input', () => {
+  radius = Number(inputRange.value);
   brushSize.innerText = `${radius} px`;
   const size = radius + 'px';
   pointer.style.width = size;
@@ -242,7 +265,7 @@ const hideConfirmDialog = () => {
   confirmOverlay.removeEventListener('keydown', hideConfirmDialogOnEsc);
 };
 
-const hideConfirmDialogOnEsc = (ev) => {
+const hideConfirmDialogOnEsc = (ev: KeyboardEvent) => {
   if (ev.key === 'Escape') {
     hideConfirmDialog();
   }
@@ -262,7 +285,9 @@ cancelClearBoardButton.addEventListener('click', hideConfirmDialog);
 const [topFocusTrap, bottomFocusTrap] = modal.querySelectorAll(
   '[id^=modal-focus-trap]',
 );
-const allFocusableElements = modal.querySelectorAll('button, a');
+const allFocusableElements = modal.querySelectorAll(
+  'button, a',
+) as NodeListOf<HTMLElement>;
 const firstFocusableElement = allFocusableElements[0];
 const lastFocusableElement =
   allFocusableElements[allFocusableElements.length - 1];
@@ -302,7 +327,7 @@ overlay.addEventListener('click', (ev) => {
   }
 });
 
-const closeModalOnEsc = (ev) => {
+const closeModalOnEsc = (ev: KeyboardEvent) => {
   if (ev.key === 'Escape') {
     closeModal();
   }
@@ -347,6 +372,6 @@ const keyMaps = {
 };
 
 window.addEventListener('keydown', (ev) => {
-  const toolFunctionToCall = keyMaps[ev.key];
-  toolFunctionToCall && toolFunctionToCall();
+  const toolFunctionToCall = keyMaps[ev.key as unknown as keyof typeof keyMaps];
+  if (toolFunctionToCall) toolFunctionToCall();
 });
