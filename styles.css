@@ -140,11 +140,6 @@ canvas {
 }
 
 .btn-collapse {
-  /*
-   * Not sure why I can't use negative margins
-   * to undo the --_padding the parent has. 🤔
-   * I had to resort to changing the width instead.
-  */
   --_border-radius: 0.2rem;
   width: 100%;
   height: auto;
