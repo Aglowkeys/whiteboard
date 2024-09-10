@@ -66,7 +66,7 @@ const undoAndSetCanvasColor = () => {
 };
 
 const isTouchEvent = (ev: Event): ev is TouchEvent =>
-  ev.type.startsWith('touch');
+  ev.type.toLowerCase().startsWith('touch');
 
 const reposition = (ev: CanvasEvent) => {
   if (ev.target === canvas) {
@@ -117,6 +117,10 @@ const stopDrawing = () => {
 };
 
 const fillCanvasOrBeginDrawing = (ev: CanvasEvent) => {
+  if (isTouchEvent(ev)) {
+    ev.preventDefault();
+  }
+
   if (current === btnRoller) {
     fillCanvas(color);
   } else {
