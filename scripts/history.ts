@@ -11,7 +11,7 @@ export class Snapshot {
     this.width = width;
     this.height = height;
     this.initialSnapshot = null;
-    this.addSnapshot();
+    this.addInitialSnapshot();
   }
 
   private addInitialSnapshot = () => {
