@@ -1,5 +1,12 @@
+type CanvasState = {
+  canvasContext: {
+    backgroundColor: string;
+  };
+  snapshot: ImageData;
+};
+
 export class Snapshot {
-  private history: Array<ImageData>;
+  private history: Array<CanvasState>;
   private context: CanvasRenderingContext2D;
   private width: number;
   private height: number;
@@ -21,40 +28,58 @@ export class Snapshot {
       this.width,
       this.height,
     );
-    this.history.push(initialSnapshot);
+    this.history.push({
+      snapshot: initialSnapshot,
+      canvasContext: { backgroundColor: 'white' },
+    });
     this.initialSnapshot = initialSnapshot;
   };
 
   /**
    * Saves the current canvas state to the history.
    */
-  addSnapshot = () => {
-    this.history.push(this.context.getImageData(0, 0, this.width, this.height));
+  addSnapshot = (bgColor: string) => {
+    this.history.push({
+      canvasContext: { backgroundColor: bgColor },
+      snapshot: this.context.getImageData(0, 0, this.width, this.height),
+    });
   };
 
   /**
-   * Undoes the last canvas action by restoring the previous state.
-   * Returns `true` if an undo was performed, or `false` if there
-   * were no actions left to undo.
-   *
-   * @returns {boolean} - Whether the undo was successful.
+   * Reverts the canvas to the previous state.
+   * If successful, returns the previous state context and `true`; otherwise, returns `null` and `false`.
+   *i
+   * @returns {Object} - The previous state context and a flag indicating if undo was successful.
    */
   undoLastAction = () => {
-    const areThingsToUndo = this.history.length > 1;
+    if (this.history.length > 1) {
+      this.history.pop()!;
+      const previousState = this.history[this.history.length - 1];
+      this.context.putImageData(previousState.snapshot, 0, 0);
 
-    if (areThingsToUndo) {
-      this.history.pop();
-      const lastElementIdx = this.history.length - 1;
-      this.context.putImageData(this.history[lastElementIdx], 0, 0);
+      return {
+        canvasContext: previousState.canvasContext,
+        undoSuccessful: true,
+      };
     }
 
-    return areThingsToUndo;
+    return {
+      canvasContext: null,
+      undoSuccessful: false,
+    };
   };
 
   /**
    * Clears all saved canvas states, keeping only the initial state.
    */
   clearHistory = () => {
-    this.history = this.initialSnapshot ? [this.initialSnapshot] : [];
+    this.history = this.initialSnapshot
+      ? [
+          {
+            canvasContext: { backgroundColor: 'white' },
+            snapshot: this.initialSnapshot,
+          },
+        ]
+      : [];
   };
 }

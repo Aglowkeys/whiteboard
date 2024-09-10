@@ -58,6 +58,13 @@ const { addSnapshot, undoLastAction, clearHistory } = new Snapshot(
   canvas.height,
 );
 
+const undoAndSetCanvasColor = () => {
+  const { canvasContext, undoSuccessful } = undoLastAction();
+  if (undoSuccessful) {
+    canvasColor = canvasContext!.backgroundColor;
+  }
+};
+
 const isTouchEvent = (ev: Event): ev is TouchEvent =>
   ev.type.startsWith('touch');
 
@@ -106,7 +113,7 @@ const beginDrawing = (ev: CanvasEvent) => {
 const stopDrawing = () => {
   canvas.removeEventListener('mousemove', draw);
   canvas.addEventListener('touchmove', draw);
-  addSnapshot();
+  addSnapshot(canvasColor);
 };
 
 const fillCanvasOrBeginDrawing = (ev: CanvasEvent) => {
@@ -140,10 +147,7 @@ window.addEventListener('mousemove', (ev) => {
 
 window.addEventListener('keydown', (ev) => {
   if (ev.key === 'z' && (ev.ctrlKey || ev.metaKey)) {
-    const wasUndoPerformed = undoLastAction();
-    if (!wasUndoPerformed) {
-      fillCanvas('white');
-    }
+    undoAndSetCanvasColor();
   }
 });
 
@@ -217,10 +221,7 @@ btnRoller.addEventListener('click', selectRollerTool);
 
 // Deshacer acción
 btnUndo.addEventListener('click', () => {
-  const wasUndoPerformed = undoLastAction();
-  if (!wasUndoPerformed) {
-    fillCanvas('white');
-  }
+  undoAndSetCanvasColor();
 });
 
 // Color random
