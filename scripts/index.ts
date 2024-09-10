@@ -117,10 +117,6 @@ const stopDrawing = () => {
 };
 
 const fillCanvasOrBeginDrawing = (ev: CanvasEvent) => {
-  if (isTouchEvent(ev)) {
-    ev.preventDefault();
-  }
-
   if (current === btnRoller) {
     fillCanvas(color);
   } else {
