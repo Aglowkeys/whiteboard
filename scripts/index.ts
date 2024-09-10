@@ -1,4 +1,5 @@
-import type { CanvasEvent } from './types/types';
+import type { CanvasEvent } from './types/types.js';
+import { Snapshot } from './history.js';
 
 const $ = <T extends Element = HTMLElement>(selector: string): T =>
   document.querySelector(selector)!;
@@ -6,7 +7,7 @@ const $$ = <T extends Element = HTMLElement>(selector: string): NodeListOf<T> =>
   document.querySelectorAll(selector);
 
 const canvas = $<HTMLCanvasElement>('#canvas');
-const ctx = canvas.getContext('2d')!;
+const ctx = canvas.getContext('2d', { willReadFrequently: true })!;
 const pointer = $('#pointer');
 const root = $(':root');
 
@@ -51,23 +52,11 @@ let hue = 15; // para el input rainbow
 let isRainbow = false;
 let isErasing = false;
 let rainbowColor = `hsl(${hue}, 80%, 70%)`;
-
-let undoSnapshots: Array<ImageData> = [];
-
-const addSnapshotToUndoHistory = () => {
-  undoSnapshots.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
-};
-
-const undoLastAction = () => {
-  undoSnapshots.pop();
-
-  if (undoSnapshots.length > 0) {
-    const lastElementIdx = undoSnapshots.length - 1;
-    ctx.putImageData(undoSnapshots[lastElementIdx], 0, 0);
-  } else {
-    fillCanvas('white');
-  }
-};
+const { addSnapshot, undoLastAction, clearHistory } = new Snapshot(
+  ctx,
+  canvas.width,
+  canvas.height,
+);
 
 const isTouchEvent = (ev: Event): ev is TouchEvent =>
   ev.type.startsWith('touch');
@@ -117,7 +106,7 @@ const beginDrawing = (ev: CanvasEvent) => {
 const stopDrawing = () => {
   canvas.removeEventListener('mousemove', draw);
   canvas.addEventListener('touchmove', draw);
-  addSnapshotToUndoHistory();
+  addSnapshot();
 };
 
 const fillCanvasOrBeginDrawing = (ev: CanvasEvent) => {
@@ -151,7 +140,10 @@ window.addEventListener('mousemove', (ev) => {
 
 window.addEventListener('keydown', (ev) => {
   if (ev.key === 'z' && (ev.ctrlKey || ev.metaKey)) {
-    undoLastAction();
+    const wasUndoPerformed = undoLastAction();
+    if (!wasUndoPerformed) {
+      fillCanvas('white');
+    }
   }
 });
 
@@ -225,7 +217,10 @@ btnRoller.addEventListener('click', selectRollerTool);
 
 // Deshacer acción
 btnUndo.addEventListener('click', () => {
-  undoLastAction();
+  const wasUndoPerformed = undoLastAction();
+  if (!wasUndoPerformed) {
+    fillCanvas('white');
+  }
 });
 
 // Color random
@@ -280,7 +275,7 @@ const hideConfirmDialogOnEsc = (ev: KeyboardEvent) => {
 const clearBoard = () => {
   fillCanvas('white');
   hideConfirmDialog();
-  undoSnapshots = [];
+  clearHistory();
 };
 
 btnClear.addEventListener('click', showConfirmDialog);
