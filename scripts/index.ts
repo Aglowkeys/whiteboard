@@ -1,15 +1,11 @@
 import type { CanvasEvent } from './types/types.js';
 import { Snapshot } from './history.js';
+import { $, $$, getRandomColor } from './utils.js';
+import { Canvas } from './canvas.js';
 
-const $ = <T extends Element = HTMLElement>(selector: string): T =>
-  document.querySelector(selector)!;
-const $$ = <T extends Element = HTMLElement>(selector: string): NodeListOf<T> =>
-  document.querySelectorAll(selector);
-
-const canvas = $<HTMLCanvasElement>('#canvas');
-const ctx = canvas.getContext('2d', { willReadFrequently: true })!;
-const pointer = $('#pointer');
 const root = $(':root');
+
+const canvas = new Canvas('#canvas');
 
 const toolsContainer = $('#tools-container');
 const btnCollapseToolbar = $('#btn-collapse');
@@ -36,127 +32,67 @@ const modal = $('#modal');
 const btnDownload = $<HTMLAnchorElement>('#btn-download');
 const notification = $('#notification');
 
-// CANVAS SETUP
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-
-const coords = {
-  x: 0,
-  y: 0,
-};
-
-let radius = 5; // para el input range y el puntero
-let color = '#000'; // para el selector de color
-let canvasColor = 'white'; // para cuando borramos y usamos el rodillo
 let hue = 15; // para el input rainbow
-let isRainbow = false;
-let isErasing = false;
 let rainbowColor = `hsl(${hue}, 80%, 70%)`;
+
 const { addSnapshot, undoLastAction, clearHistory } = new Snapshot(
-  ctx,
+  canvas.getContext(),
   canvas.width,
   canvas.height,
 );
 
 const undoAndSetCanvasColor = () => {
   const { canvasContext, undoSuccessful } = undoLastAction();
-  if (undoSuccessful) {
-    canvasColor = canvasContext!.backgroundColor;
-  }
-};
 
-const isTouchEvent = (ev: Event): ev is TouchEvent =>
-  ev.type.toLowerCase().startsWith('touch');
-
-const reposition = (ev: CanvasEvent) => {
-  if (ev.target === canvas) {
-    ev.preventDefault();
+  if (!undoSuccessful || !canvasContext) {
+    return;
   }
 
-  const xCoord = isTouchEvent(ev) ? ev.touches[0].clientX : ev.clientX;
-  const yCoord = isTouchEvent(ev) ? ev.touches[0].clientY : ev.clientY;
+  canvas.setBackgroundColor(canvasContext.backgroundColor);
 
-  coords.x = xCoord - canvas.offsetLeft;
-  coords.y = yCoord - canvas.offsetTop;
+  if (canvas.drawingMode === 'eraser') {
+    canvas.setColor(canvasContext.backgroundColor);
+  }
 };
 
 const draw = (ev: CanvasEvent) => {
-  if (isErasing) color = canvasColor;
+  const { drawingMode } = canvas;
 
-  ctx.beginPath();
-  ctx.lineWidth = radius;
-  ctx.lineCap = 'round';
-  ctx.strokeStyle = isRainbow ? rainbowColor : color;
-  ctx.moveTo(coords.x, coords.y);
-  reposition(ev);
-  ctx.lineTo(coords.x, coords.y);
-  ctx.stroke();
+  canvas.draw(ev);
 
-  if (isRainbow) {
+  if (drawingMode === 'rainbow-brush') {
     hue += 1;
     rainbowColor = `hsl(${hue}, 80%, 70%)`;
+    canvas.setColor(rainbowColor);
   }
 };
 
-const fillCanvas = (color: string) => {
-  ctx.fillStyle = color;
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-  canvasColor = color;
-};
-
 const beginDrawing = (ev: CanvasEvent) => {
-  canvas.addEventListener('mousemove', draw);
-  canvas.addEventListener('touchmove', draw);
-  reposition(ev);
+  canvas.beginDrawing(ev);
 };
 
 const stopDrawing = () => {
-  canvas.removeEventListener('mousemove', draw);
-  canvas.addEventListener('touchmove', draw);
-  addSnapshot(canvasColor);
+  canvas.stopDrawing();
+  addSnapshot(canvas.backgroundColor);
 };
 
 const fillCanvasOrBeginDrawing = (ev: CanvasEvent) => {
   if (current === btnRoller) {
-    fillCanvas(color);
+    canvas.fill();
   } else {
     beginDrawing(ev);
   }
 };
 
-window.addEventListener('resize', () => {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-});
-
-canvas.addEventListener('mousedown', fillCanvasOrBeginDrawing);
-canvas.addEventListener('touchstart', fillCanvasOrBeginDrawing);
-
-canvas.addEventListener('click', draw);
-
-canvas.addEventListener('mouseup', stopDrawing);
-canvas.addEventListener('touchend', stopDrawing);
-
-// Puntero
-window.addEventListener('mousemove', (ev) => {
-  coords.x = ev.x;
-  coords.y = ev.y;
-  pointer.style.top = ev.y + 'px';
-  pointer.style.left = ev.x + 'px';
-});
+canvas.onBeginDrawing(fillCanvasOrBeginDrawing);
+canvas.onDraw(draw);
+canvas.onStopDrawing(stopDrawing);
 
 window.addEventListener('keydown', (ev) => {
   if (ev.key === 'z' && (ev.ctrlKey || ev.metaKey)) {
     undoAndSetCanvasColor();
   }
 });
-
-const getRandomColor = () => {
-  // No puede ser en hsl porque uso este valor para
-  // reflejar el cambio también en el input type="color"
-  // y solo acepta values que sean hexadecimales.
-  color = '#' + ((Math.random() * 0xffffff) << 0).toString(16).padStart(6, '0');
-};
 
 let current = btnBrush; // nuestra herramienta activa
 btnBrush.classList.add('active');
@@ -188,33 +124,31 @@ btnCollapseToolbar.addEventListener('click', () => {
 // Pincel
 const selectBrushTool = () => {
   updateCurrent(btnBrush);
-  isRainbow = false;
-  isErasing = false;
-  color = inputColor.value || 'black';
+  canvas.changeDrawingMode('brush');
+  canvas.setColor(inputColor.value || 'black');
 };
 btnBrush.addEventListener('click', selectBrushTool);
 
 // Borrador
 const selectEraserTool = () => {
   updateCurrent(btnEraser);
-  isRainbow = false;
-  isErasing = true;
+  canvas.changeDrawingMode('eraser');
+  canvas.setColor(canvas.backgroundColor);
 };
 btnEraser.addEventListener('click', selectEraserTool);
 
 // Arcoíris
 const selectRainbowTool = () => {
   updateCurrent(btnRainbow);
-  isRainbow = true;
-  isErasing = false;
+  canvas.changeDrawingMode('rainbow-brush');
+  canvas.setColor(rainbowColor);
 };
 btnRainbow.addEventListener('click', selectRainbowTool);
 
 // Rodillo
 const selectRollerTool = () => {
-  isRainbow = false;
-  isErasing = false;
-  color = inputColor.value || 'black';
+  canvas.changeDrawingMode('brush');
+  canvas.setColor(inputColor.value || 'black');
   updateCurrent(btnRoller);
 };
 btnRoller.addEventListener('click', selectRollerTool);
@@ -226,26 +160,29 @@ btnUndo.addEventListener('click', () => {
 
 // Color random
 const selectRandomColorTool = () => {
-  getRandomColor();
-  inputColor.value = color;
-  root.style.setProperty('--current-color', color);
+  const randomColor = getRandomColor();
+  inputColor.value = randomColor;
+  root.style.setProperty('--current-color', randomColor);
+
+  if (canvas.drawingMode === 'brush') {
+    canvas.setColor(randomColor);
+  }
+
   btnRandom.focus();
 };
 btnRandom.addEventListener('click', selectRandomColorTool);
 
 // Selector de color
 inputColor.addEventListener('change', () => {
-  color = inputColor.value;
+  canvas.setColor(inputColor.value);
   root.style.setProperty('--current-color', inputColor.value);
 });
 
 // Tamaño pincel
 inputRange.addEventListener('input', () => {
-  radius = Number(inputRange.value);
+  const radius = Number(inputRange.value);
+  canvas.changeRadius(radius);
   brushSize.innerText = `${radius} px`;
-  const size = radius + 'px';
-  pointer.style.width = size;
-  pointer.style.height = size;
 });
 
 confirmTopTrap.addEventListener('focus', () => cancelClearBoardButton.focus());
@@ -274,7 +211,10 @@ const hideConfirmDialogOnEsc = (ev: KeyboardEvent) => {
 };
 
 const clearBoard = () => {
-  fillCanvas('white');
+  canvas.fill('white');
+  if (canvas.drawingMode === 'eraser') {
+    canvas.setColor(canvas.backgroundColor);
+  }
   hideConfirmDialog();
   clearHistory();
 };
@@ -339,7 +279,7 @@ const closeModalOnEsc = (ev: KeyboardEvent) => {
 // ========== DESCARGAR IMAGEN ==========
 //
 btnDownload.addEventListener('click', () => {
-  btnDownload.href = canvas.toDataURL('image/png');
+  btnDownload.href = canvas.getCanvasAsImage();
   notification.classList.add('show');
 
   setTimeout(() => {
