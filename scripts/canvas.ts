@@ -144,6 +144,7 @@ export class Canvas {
 
   onDraw(cb: (ev: CanvasEvent) => void) {
     this.canvas.addEventListener('mousemove', cb);
+    this.canvas.addEventListener('touchmove', cb);
   }
 
   onStopDrawing(cb: (ev: CanvasEvent) => void) {
