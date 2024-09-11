@@ -212,6 +212,7 @@ const hideConfirmDialogOnEsc = (ev: KeyboardEvent) => {
 
 const clearBoard = () => {
   canvas.fill('white');
+  canvas.setColor(canvas.backgroundColor);
   hideConfirmDialog();
   clearHistory();
 };
