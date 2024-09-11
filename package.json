@@ -7,7 +7,7 @@
   "scripts": {
     "lint": "eslint",
     "format": "prettier . --write --ignore-path .gitignore",
-    "build": "node ./esbuild.config.mjs",
+    "build": "tsc && node ./esbuild.config.mjs",
     "watch": "npm run build -- --watch"
   },
   "keywords": [
