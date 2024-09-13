@@ -34,6 +34,7 @@ const notification = $('#notification');
 
 let hue = 15; // para el input rainbow
 let rainbowColor = `hsl(${hue}, 80%, 70%)`;
+let isDialogOpen = false;
 
 const { addSnapshot, undoLastAction, clearHistory } = new Snapshot(
   canvas.getContext(),
@@ -87,12 +88,6 @@ const fillCanvasOrBeginDrawing = (ev: CanvasEvent) => {
 canvas.onBeginDrawing(fillCanvasOrBeginDrawing);
 canvas.onDraw(draw);
 canvas.onStopDrawing(stopDrawing);
-
-window.addEventListener('keydown', (ev) => {
-  if (ev.key === 'z' && (ev.ctrlKey || ev.metaKey)) {
-    undoAndSetCanvasColor();
-  }
-});
 
 let current = btnBrush; // nuestra herramienta activa
 btnBrush.classList.add('active');
@@ -189,6 +184,7 @@ confirmTopTrap.addEventListener('focus', () => cancelClearBoardButton.focus());
 confirmBottomTrap.addEventListener('focus', () => clearBoardButton.focus());
 
 const showConfirmDialog = () => {
+  isDialogOpen = true;
   confirmOverlay.classList.add('visible');
   confirmDialog.classList.add('visible');
   clearBoardButton.focus();
@@ -196,6 +192,7 @@ const showConfirmDialog = () => {
 };
 
 const hideConfirmDialog = () => {
+  isDialogOpen = false;
   confirmOverlay.classList.remove('visible');
   confirmDialog.classList.remove('visible');
 
@@ -241,6 +238,7 @@ topFocusTrap.addEventListener('focus', goToLastFocusableElement);
 bottomFocusTrap.addEventListener('focus', goToFirstFocusableElement);
 
 const openModal = () => {
+  isDialogOpen = true;
   overlay.classList.add('visible');
   modal.classList.add('visible');
 
@@ -250,6 +248,7 @@ const openModal = () => {
 };
 
 const closeModal = () => {
+  isDialogOpen = false;
   overlay.classList.remove('visible');
   modal.classList.remove('visible');
 
@@ -301,19 +300,34 @@ const selectDownloadTool = () => {
 };
 
 const keyMaps = {
-  1: selectBrushTool,
-  2: selectEraserTool,
-  3: selectRainbowTool,
-  4: selectRollerTool,
-  5: selectRandomColorTool,
-  6: selectColorTool,
-  7: selectSizeTool,
-  8: showConfirmDialog,
-  9: selectDownloadTool,
-  0: openModal,
-};
+  '1': selectBrushTool,
+  '2': selectEraserTool,
+  '3': selectRainbowTool,
+  '4': selectRollerTool,
+  '5': selectRandomColorTool,
+  '6': selectColorTool,
+  '7': selectSizeTool,
+  '8': showConfirmDialog,
+  '9': selectDownloadTool,
+  '0': openModal,
+} as const;
+
+type KeyMapKeys = keyof typeof keyMaps;
 
 window.addEventListener('keydown', (ev) => {
-  const toolFunctionToCall = keyMaps[ev.key as unknown as keyof typeof keyMaps];
-  if (toolFunctionToCall) toolFunctionToCall();
+  if (isDialogOpen) {
+    return;
+  }
+
+  const metaKeyPressed = ev.ctrlKey || ev.metaKey;
+
+  if (ev.key === 'z' && metaKeyPressed) {
+    return undoAndSetCanvasColor();
+  }
+
+  const isValidKey = (key: string): key is KeyMapKeys => key in keyMaps;
+
+  if (!metaKeyPressed && isValidKey(ev.key)) {
+    return keyMaps[ev.key]();
+  }
 });
