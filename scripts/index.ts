@@ -247,7 +247,6 @@ const openModal = () => {
   isDialogOpen = true;
   toolbar.setAttribute('inert', 'true');
   overlay.classList.add('visible');
-  modal.classList.add('visible');
 
   window.addEventListener('keydown', closeModalOnEsc);
 
@@ -257,8 +256,15 @@ const openModal = () => {
 const closeModal = () => {
   isDialogOpen = false;
   toolbar.removeAttribute('inert');
-  overlay.classList.remove('visible');
-  modal.classList.remove('visible');
+  overlay.classList.add('hiding');
+
+  overlay.addEventListener(
+    'animationend',
+    () => {
+      overlay.classList.remove('visible', 'hiding');
+    },
+    { once: true },
+  );
 
   window.removeEventListener('keydown', closeModalOnEsc);
 
