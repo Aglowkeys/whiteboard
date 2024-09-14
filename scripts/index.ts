@@ -2,11 +2,13 @@ import type { CanvasEvent } from './types/types.js';
 import { Snapshot } from './history.js';
 import { $, $$, getRandomColor } from './utils.js';
 import { Canvas } from './canvas.js';
+import { NotificationContainer } from './notification.js';
 
 const root = $(':root');
 
 const canvas = new Canvas('#canvas');
 
+const toolbar = $('#toolbar');
 const toolsContainer = $('#tools-container');
 const btnCollapseToolbar = $('#btn-collapse');
 const btnBrush = $('#btn-brush');
@@ -30,7 +32,9 @@ const btnClose = $('#btn-close');
 const overlay = $('#modal-overlay');
 const modal = $('#modal');
 const btnDownload = $<HTMLAnchorElement>('#btn-download');
-const notification = $('#notification');
+const notificationsContainer = new NotificationContainer(
+  $('#notifications-container'),
+);
 
 let hue = 15; // para el input rainbow
 let rainbowColor = `hsl(${hue}, 80%, 70%)`;
@@ -185,6 +189,7 @@ confirmBottomTrap.addEventListener('focus', () => clearBoardButton.focus());
 
 const showConfirmDialog = () => {
   isDialogOpen = true;
+  toolbar.setAttribute('inert', 'true');
   confirmOverlay.classList.add('visible');
   confirmDialog.classList.add('visible');
   clearBoardButton.focus();
@@ -193,6 +198,7 @@ const showConfirmDialog = () => {
 
 const hideConfirmDialog = () => {
   isDialogOpen = false;
+  toolbar.removeAttribute('inert');
   confirmOverlay.classList.remove('visible');
   confirmDialog.classList.remove('visible');
 
@@ -239,6 +245,7 @@ bottomFocusTrap.addEventListener('focus', goToFirstFocusableElement);
 
 const openModal = () => {
   isDialogOpen = true;
+  toolbar.setAttribute('inert', 'true');
   overlay.classList.add('visible');
   modal.classList.add('visible');
 
@@ -249,6 +256,7 @@ const openModal = () => {
 
 const closeModal = () => {
   isDialogOpen = false;
+  toolbar.removeAttribute('inert');
   overlay.classList.remove('visible');
   modal.classList.remove('visible');
 
@@ -279,11 +287,7 @@ const closeModalOnEsc = (ev: KeyboardEvent) => {
 //
 btnDownload.addEventListener('click', () => {
   btnDownload.href = canvas.getCanvasAsImage();
-  notification.classList.add('show');
-
-  setTimeout(() => {
-    notification.classList.remove('show');
-  }, 3000);
+  notificationsContainer.addNotification();
 });
 
 //
