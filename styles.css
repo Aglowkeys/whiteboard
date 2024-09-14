@@ -38,6 +38,8 @@
   --font-weight-black: 700;
 
   --dialog-box-shadow: 0 0.5em 1em -0.5em rgba(0, 0, 0, 0.3);
+  --notification-box-shadow: 0 0.4em 0.75em -0.5em rgba(0, 0, 0, 0.3),
+    0 0.15em 0.5em rgba(0, 0, 0, 0.15);
 }
 
 body {
@@ -432,17 +434,29 @@ svg {
   pointer-events: none;
 }
 
-.notification {
-  display: flex;
-  align-items: center;
+.notifications-container {
   position: absolute;
   bottom: 1rem;
   left: 1rem;
-  background-color: var(--primary-400);
-  padding: 1rem 1.25rem;
+  display: flex;
+  flex-direction: column-reverse;
+  z-index: 1;
+}
+
+.notification {
+  display: flex;
+  align-items: center;
+  background-color: var(--gray-100);
+  color: var(--gray-700);
+  padding: 0.75rem 1rem;
   border-radius: 0.3rem;
+  border: 1px solid var(--gray-200);
+  box-shadow: var(--notification-box-shadow);
   transform: translateX(-150%);
-  color: var(--primary-100);
+}
+
+.notification + .notification {
+  margin-bottom: 0.25rem;
 }
 
 .notification.show {
