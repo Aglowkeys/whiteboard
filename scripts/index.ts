@@ -39,6 +39,9 @@ const notificationsContainer = new NotificationContainer(
 let hue = 15; // para el input rainbow
 let rainbowColor = `hsl(${hue}, 80%, 70%)`;
 let isDialogOpen = false;
+const collapseButtonHeight = `${btnCollapseToolbar.scrollHeight}px`;
+const toolbarHeight = `${toolbar.scrollHeight}px`;
+toolbar.style.height = toolbarHeight;
 
 const { addSnapshot, undoLastAction, clearHistory } = new Snapshot(
   canvas.getContext(),
@@ -104,20 +107,25 @@ const updateCurrent = (elem: HTMLElement) => {
 
 // Minimizar barra de herramientas
 btnCollapseToolbar.addEventListener('click', () => {
-  const TOOLS_CONTAINER_COLLAPSED_CLASS = 'tools-container--collapsed';
-
-  toolsContainer.classList.toggle(TOOLS_CONTAINER_COLLAPSED_CLASS);
-  btnCollapseToolbar.classList.toggle('btn-collapse--collapsed');
-
-  const isCollapsed = toolsContainer.className.includes(
-    TOOLS_CONTAINER_COLLAPSED_CLASS,
-  );
+  const isCollapsed = toolbar.classList.toggle('toolbar--collapsed');
+  toolbar.style.height = isCollapsed ? collapseButtonHeight : toolbarHeight;
 
   btnCollapseToolbar.setAttribute(
     'aria-label',
     `${isCollapsed ? 'Expandir' : 'Contraer'} barra de herramientas`,
   );
   toolsContainer.setAttribute('aria-expanded', `${!isCollapsed}`);
+  toolbar.style.overflow = 'hidden';
+  toolsContainer.style.visibility = 'visible';
+
+  toolbar.addEventListener('transitionend', (ev) => {
+    if (ev.propertyName.toLowerCase() !== 'height') {
+      return;
+    }
+
+    toolsContainer.style.visibility = isCollapsed ? 'hidden' : 'visible';
+    toolbar.style.overflow = 'visible';
+  });
 });
 
 // Pincel
