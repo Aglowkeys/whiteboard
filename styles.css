@@ -193,6 +193,7 @@ svg {
 }
 
 .tooltip {
+  display: none;
   position: absolute;
   top: 50%;
   left: calc(100% + 1em);
@@ -623,6 +624,10 @@ svg {
 }
 
 @media (hover: hover) {
+  .tooltip {
+    display: block;
+  }
+
   .btn:hover .tooltip,
   .input-container:hover .tooltip {
     opacity: 1;
