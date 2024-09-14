@@ -299,6 +299,7 @@ svg {
 }
 
 .overlay {
+  --_animation-duration: 300ms;
   z-index: 5;
   position: absolute;
   top: 0;
@@ -319,7 +320,7 @@ svg {
 
 .overlay.visible {
   display: flex;
-  animation: showModalOverlay 0.5s ease forwards;
+  animation: showModalOverlay var(--_animation-duration) ease forwards;
 }
 
 @keyframes showModalOverlay {
@@ -338,10 +339,18 @@ svg {
   display: none;
 }
 
-.modal.visible {
+.overlay.visible .modal {
   display: block;
-  animation: showModal 0.5s ease forwards;
+  animation: showModal var(--_animation-duration) ease forwards;
   animation-delay: 0.2s;
+}
+
+.overlay.hiding {
+  animation: fadeOut var(--_animation-duration) ease forwards;
+}
+
+.overlay.hiding .modal {
+  animation: hideModal var(--_animation-duration) ease forwards;
 }
 
 @keyframes showModal {
@@ -352,6 +361,26 @@ svg {
   100% {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes hideModal {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
   }
 }
 
