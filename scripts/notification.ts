@@ -1,5 +1,37 @@
 import { $ } from './utils';
 
+const NOTIFICATION_END_EVENT_NAME = 'notificationend';
+
+class Notification {
+  notification: HTMLDivElement;
+
+  constructor(template: HTMLTemplateElement) {
+    this.notification = document
+      .importNode(template.content, true)
+      .querySelector('div')!;
+
+    this.init();
+  }
+
+  private init() {
+    this.notification.classList.add('show');
+    this.notification.addEventListener('animationend', () => this.shrink(), {
+      once: true,
+    });
+  }
+
+  private shrink() {
+    this.notification.classList.add('shrink');
+    this.notification.addEventListener(
+      'transitionend',
+      () => {
+        this.notification.dispatchEvent(new Event(NOTIFICATION_END_EVENT_NAME));
+      },
+      { once: true },
+    );
+  }
+}
+
 export class NotificationContainer {
   private container: HTMLElement;
   private template: HTMLTemplateElement;
@@ -10,13 +42,11 @@ export class NotificationContainer {
   }
 
   addNotification() {
-    const fragment = document.importNode(this.template.content, true);
-    const notification = fragment.querySelector('div')!;
-    notification.classList.add('show');
+    const notification = new Notification(this.template).notification;
     this.container.appendChild(notification);
 
-    notification.addEventListener('animationend', () =>
-      this.container.removeChild(notification),
-    );
+    notification.addEventListener(NOTIFICATION_END_EVENT_NAME, () => {
+      this.container.removeChild(notification);
+    });
   }
 }
