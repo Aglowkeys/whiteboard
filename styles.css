@@ -79,6 +79,7 @@ svg {
   display: flex;
   flex-direction: column;
   align-items: center;
+  transition: height 350ms cubic-bezier(0.65, 0.05, 0.36, 1);
 }
 
 .tools-container {
@@ -86,15 +87,6 @@ svg {
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-.tools-container--collapsed {
-  padding: 0 var(--_padding);
-  height: 0;
-}
-
-.tools-container--collapsed * {
-  visibility: hidden;
 }
 
 .toolbar .btn:not(:last-child) {
@@ -165,18 +157,18 @@ svg {
   height: auto;
   padding: 0.25rem 0;
   border-radius: var(--_border-radius) var(--_border-radius) 0 0;
+  outline-offset: -1px;
 }
 
 .btn-collapse svg {
   transition: transform 0.2s;
 }
 
-.btn.btn-collapse.btn-collapse--collapsed {
-  margin-bottom: 0;
+.toolbar--collapsed .btn-collapse {
   border-radius: var(--_border-radius);
 }
 
-.btn-collapse--collapsed svg {
+.toolbar--collapsed .btn-collapse svg {
   transform: rotate(180deg);
 }
 
