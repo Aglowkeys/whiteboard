@@ -101,7 +101,7 @@ export class Canvas {
 
     if (this.drawingEventFunction) {
       this.canvas.removeEventListener('mousemove', this.drawingEventFunction);
-      this.canvas.addEventListener('touchmove', this.drawingEventFunction);
+      this.canvas.removeEventListener('touchmove', this.drawingEventFunction);
       this.drawingEventFunction = null;
     }
   }
@@ -114,6 +114,7 @@ export class Canvas {
     this.context.beginPath();
     this.context.lineWidth = this.radius;
     this.context.lineCap = 'round';
+    this.context.lineJoin = 'round';
     this.context.strokeStyle = this.color;
     this.context.moveTo(this.coordinates.x, this.coordinates.y);
     this.reposition(ev);
