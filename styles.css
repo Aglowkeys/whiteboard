@@ -11,6 +11,8 @@
 }
 
 :root {
+  --pointer-bg-color: #000;
+
   --gray-50: #f9f9f9;
   --gray-100: #fafafa;
   --gray-200: #e5e4e6;
@@ -454,8 +456,7 @@ svg {
 
 #pointer {
   display: none; /* We show it only if device supports hovers, in the media query at the end */
-  background-color: transparent;
-  border: 2px solid #ddd;
+  background-color: var(--pointer-bg-color);
   border-radius: 50%;
   position: absolute;
   top: 0;
