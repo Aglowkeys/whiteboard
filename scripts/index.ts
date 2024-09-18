@@ -22,19 +22,14 @@ const [inputColor, inputRange] = $$<HTMLInputElement>('input');
 const brushSize = $('.brush-size');
 const confirmOverlay = $('#confirm-overlay');
 const confirmDialog = $('#confirm');
-const [clearBoardButton, cancelClearBoardButton] =
-  confirmDialog.querySelectorAll('button');
-const [confirmTopTrap, confirmBottomTrap] = confirmDialog.querySelectorAll(
-  '[id^=confirm-focus-trap]',
-);
+const [clearBoardButton, cancelClearBoardButton] = confirmDialog.querySelectorAll('button');
+const [confirmTopTrap, confirmBottomTrap] = confirmDialog.querySelectorAll('[id^=confirm-focus-trap]');
 const btnInfo = $('#btn-info');
 const btnClose = $('#btn-close');
 const overlay = $('#modal-overlay');
 const modal = $('#modal');
 const btnDownload = $<HTMLAnchorElement>('#btn-download');
-const notificationsContainer = new NotificationContainer(
-  $('#notifications-container'),
-);
+const notificationsContainer = new NotificationContainer($('#notifications-container'));
 
 let isDialogOpen = false;
 const collapseButtonHeight = `${btnCollapseToolbar.scrollHeight}px`;
@@ -63,6 +58,15 @@ const undoAndSetCanvasColor = () => {
 
 const stopDrawing = () => {
   canvas.stopDrawing();
+
+  toolbar.classList.remove('is-drawing');
+  toolbar.querySelectorAll<HTMLElement>('button, input, a').forEach((button) => {
+    button.removeAttribute('tabindex');
+  });
+
+  // We return focus to the last selected tool after drawing
+  current.focus();
+
   addSnapshot(canvas.backgroundColor);
 };
 
@@ -70,6 +74,13 @@ const fillCanvasOrBeginDrawing = (ev: CanvasEvent) => {
   if (current === btnRoller) {
     canvas.fill();
   } else {
+    toolbar.classList.add('is-drawing');
+
+    // To prevent pressing tab and changing tools while drawing
+    toolbar.querySelectorAll('button, input, a').forEach((el) => {
+      el.setAttribute('tabindex', '-1');
+    });
+
     canvas.beginDrawing(ev);
   }
 };
@@ -84,6 +95,7 @@ const updateCurrent = (elem: HTMLElement) => {
   current.classList.remove('active');
   current = elem;
   current.classList.add('active');
+  current.focus();
 };
 
 // Minimizar barra de herramientas
@@ -215,15 +227,10 @@ clearBoardButton.addEventListener('click', clearBoard);
 cancelClearBoardButton.addEventListener('click', hideConfirmDialog);
 
 /* Managing Focus Trap inside the modal */
-const [topFocusTrap, bottomFocusTrap] = modal.querySelectorAll(
-  '[id^=modal-focus-trap]',
-);
-const allFocusableElements = modal.querySelectorAll(
-  'button, a',
-) as NodeListOf<HTMLElement>;
+const [topFocusTrap, bottomFocusTrap] = modal.querySelectorAll('[id^=modal-focus-trap]');
+const allFocusableElements = modal.querySelectorAll('button, a') as NodeListOf<HTMLElement>;
 const firstFocusableElement = allFocusableElements[0];
-const lastFocusableElement =
-  allFocusableElements[allFocusableElements.length - 1];
+const lastFocusableElement = allFocusableElements[allFocusableElements.length - 1];
 
 const goToFirstFocusableElement = () => firstFocusableElement.focus();
 const goToLastFocusableElement = () => lastFocusableElement.focus();
