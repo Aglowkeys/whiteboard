@@ -29,6 +29,7 @@ const btnClose = $('#btn-close');
 const overlay = $('#modal-overlay');
 const modal = $('#modal');
 const btnDownload = $<HTMLAnchorElement>('#btn-download');
+const allButtonsInsideToolbar = toolbar.querySelectorAll<HTMLElement>('button, a, input')!;
 const notificationsContainer = new NotificationContainer($('#notifications-container'));
 
 let isDialogOpen = false;
@@ -60,9 +61,7 @@ const stopDrawing = () => {
   canvas.stopDrawing();
 
   toolbar.classList.remove('is-drawing');
-  toolbar.querySelectorAll<HTMLElement>('button, input, a').forEach((button) => {
-    button.removeAttribute('tabindex');
-  });
+  allButtonsInsideToolbar.forEach((el) => el.removeAttribute('tabindex'));
 
   // We return focus to the last selected tool after drawing
   current.focus();
@@ -77,9 +76,7 @@ const fillCanvasOrBeginDrawing = (ev: CanvasEvent) => {
     toolbar.classList.add('is-drawing');
 
     // To prevent pressing tab and changing tools while drawing
-    toolbar.querySelectorAll('button, input, a').forEach((el) => {
-      el.setAttribute('tabindex', '-1');
-    });
+    allButtonsInsideToolbar.forEach((el) => el.setAttribute('tabindex', '-1'));
 
     canvas.beginDrawing(ev);
   }
