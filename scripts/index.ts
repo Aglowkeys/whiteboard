@@ -9,6 +9,7 @@ const root = $(':root');
 
 const canvas = new Canvas('#canvas');
 
+const pointer = $('#pointer');
 const toolbar = $('#toolbar');
 const toolsContainer = $('#tools-container');
 const btnCollapseToolbar = $('#btn-collapse');
@@ -175,6 +176,8 @@ inputColor.addEventListener('change', () => {
 inputRange.addEventListener('input', () => {
   const size = Number(inputRange.value);
   canvas.changeSize(size);
+  pointer.style.width = `${size}px`;
+  pointer.style.height = `${size}px`;
   brushSize.innerText = `${size} px`;
 });
 
@@ -310,4 +313,9 @@ window.addEventListener('keydown', (ev) => {
   if (!metaKeyPressed && isValidKey(ev.key)) {
     return keyMaps[ev.key]();
   }
+});
+
+window.addEventListener('mousemove', ({ x, y }) => {
+  pointer.style.top = y + 'px';
+  pointer.style.left = x + 'px';
 });

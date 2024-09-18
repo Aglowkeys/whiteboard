@@ -1,10 +1,9 @@
 import type { CanvasEvent, ContextObject, Coordinate, DrawingMode } from './types/index';
-import { $, isTouchEvent } from './utils';
+import { $, isTouchEvent, setPointerBgColor } from './utils';
 
 export class Canvas {
   private canvas: HTMLCanvasElement;
   private context: CanvasRenderingContext2D;
-  private pointer: HTMLElement;
   private isDrawing: boolean;
   private coordinates: Array<Coordinate>;
   private size: number;
@@ -33,7 +32,6 @@ export class Canvas {
       willReadFrequently: true,
     })!;
 
-    this.pointer = $('#pointer');
     this.width = window.innerWidth;
     this.height = window.innerHeight;
     this.hue = 15;
@@ -64,10 +62,9 @@ export class Canvas {
 
       if (this.drawingMode === 'rainbow-brush') {
         coords.hue = this.hue++;
+        setPointerBgColor(`hsl(${this.hue}, 80%, 70%)`);
       }
       this.currentCoords = coords;
-      this.pointer.style.top = y + 'px';
-      this.pointer.style.left = x + 'px';
     });
 
     window.addEventListener('touchstart', () => {
@@ -89,8 +86,6 @@ export class Canvas {
         }
 
         this.currentCoords = coords;
-        this.pointer.style.top = y + 'px';
-        this.pointer.style.left = x + 'px';
       },
       { passive: false },
     );
@@ -119,6 +114,7 @@ export class Canvas {
 
   setColor(color: string) {
     this.color = color;
+    setPointerBgColor(color);
   }
 
   fill(color: string = this.color) {
@@ -144,8 +140,6 @@ export class Canvas {
 
   changeSize(size: number) {
     this.size = size;
-    this.pointer.style.width = size + 'px';
-    this.pointer.style.height = size + 'px';
   }
 
   beginDrawing(ev: CanvasEvent) {
