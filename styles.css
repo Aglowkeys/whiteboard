@@ -252,8 +252,8 @@ svg {
   position: absolute;
   width: var(--_size);
   height: var(--_size);
-  top: -0rem;
-  right: -0rem;
+  top: 0.2rem;
+  right: 0.2rem;
   background-color: var(--current-color);
   border-radius: 50%;
 }
