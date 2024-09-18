@@ -1,9 +1,4 @@
-import type {
-  CanvasEvent,
-  ContextObject,
-  Coordinate,
-  DrawingMode,
-} from './types/index';
+import type { CanvasEvent, ContextObject, Coordinate, DrawingMode } from './types/index';
 import { $, isTouchEvent } from './utils';
 
 export class Canvas {
@@ -14,7 +9,7 @@ export class Canvas {
   private coordinates: Array<Coordinate>;
   private size: number;
   private isTouch: boolean;
-  private currentCoords: Coordinate;
+  private currentCoords: Coordinate | null;
   private memoryCanvas: HTMLCanvasElement;
   private listeners: Record<string, (() => void) | null>;
   memoryContext: CanvasRenderingContext2D;
@@ -47,7 +42,7 @@ export class Canvas {
     this.drawingMode = 'brush';
     this.isDrawing = false;
     this.size = 5;
-    this.currentCoords = { x: 0, y: 0 };
+    this.currentCoords = null;
     this.coordinates = [];
     this.isTouch = false;
 
@@ -73,27 +68,36 @@ export class Canvas {
       this.pointer.style.left = x + 'px';
     });
 
-    window.addEventListener('touchmove', ({ touches }) => {
-      const { clientX: x, clientY: y } = touches[0];
-      const coords: Coordinate = { x, y };
-
-      if (this.drawingMode === 'rainbow-brush') {
-        coords.hue = this.hue++;
-      }
-
-      this.currentCoords = coords;
-      this.pointer.style.top = y + 'px';
-      this.pointer.style.left = x + 'px';
+    window.addEventListener('touchstart', () => {
+      this.currentCoords = null;
     });
+
+    window.addEventListener(
+      'touchmove',
+      (ev) => {
+        if (ev.target === this.canvas) {
+          ev.preventDefault();
+        }
+
+        const { clientX: x, clientY: y } = ev.touches[0];
+        const coords: Coordinate = { x, y };
+
+        if (this.drawingMode === 'rainbow-brush') {
+          coords.hue = this.hue++;
+        }
+
+        this.currentCoords = coords;
+        this.pointer.style.top = y + 'px';
+        this.pointer.style.left = x + 'px';
+      },
+      { passive: false },
+    );
 
     window.addEventListener('resize', () => {
       this.resize(window.innerWidth, window.innerHeight);
     });
 
-    window.addEventListener('mouseleave', () => {
-      console.log('mouseleave');
-      this.stopDrawing();
-    });
+    this.canvas.addEventListener('contextmenu', (ev) => ev.preventDefault());
   }
 
   getContext(): ContextObject {
@@ -149,7 +153,11 @@ export class Canvas {
     this.listeners.drawingListener = () => {
       this.context.clearRect(0, 0, this.width, this.height);
       this.context.drawImage(this.memoryCanvas, 0, 0);
-      this.coordinates.push(this.currentCoords);
+
+      if (this.currentCoords) {
+        this.coordinates.push(this.currentCoords);
+      }
+
       this.draw();
     };
 
@@ -160,6 +168,7 @@ export class Canvas {
   stopDrawing() {
     this.isDrawing = false;
     this.coordinates = [];
+    this.currentCoords = null;
     this.memoryContext.clearRect(0, 0, this.width, this.height);
     this.memoryContext.drawImage(this.canvas, 0, 0);
     const drawingListener = this.listeners.drawingListener;
@@ -172,9 +181,7 @@ export class Canvas {
   }
 
   private getDrawingColor(hue?: number) {
-    return hue && this.drawingMode === 'rainbow-brush'
-      ? `hsl(${hue}, 80%, 70%)`
-      : this.color;
+    return hue && this.drawingMode === 'rainbow-brush' ? `hsl(${hue}, 80%, 70%)` : this.color;
   }
 
   draw() {
@@ -190,13 +197,7 @@ export class Canvas {
       this.context.fillStyle = this.getDrawingColor(initialCoord.hue);
 
       this.context.beginPath();
-      this.context.arc(
-        initialCoord.x,
-        initialCoord.y,
-        this.size / 2,
-        0,
-        Math.PI * 2,
-      );
+      this.context.arc(initialCoord.x, initialCoord.y, this.size / 2, 0, Math.PI * 2);
       this.context.closePath();
       this.context.fill();
 
@@ -225,12 +226,7 @@ export class Canvas {
     const [secondToLastCoord, lastCoord] = this.coordinates.slice(-2);
 
     this.context.strokeStyle = this.getDrawingColor(secondToLastCoord.hue);
-    this.context.quadraticCurveTo(
-      secondToLastCoord.x,
-      secondToLastCoord.y,
-      lastCoord.x,
-      lastCoord.y,
-    );
+    this.context.quadraticCurveTo(secondToLastCoord.x, secondToLastCoord.y, lastCoord.x, lastCoord.y);
     this.context.stroke();
   }
 
