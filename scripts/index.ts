@@ -1,4 +1,4 @@
-import type { CanvasEvent } from './types/types.js';
+import type { CanvasEvent } from './types/index.js';
 import { Snapshot } from './history.js';
 import { $, $$, getRandomColor } from './utils.js';
 import { Canvas } from './canvas.js';
@@ -36,8 +36,6 @@ const notificationsContainer = new NotificationContainer(
   $('#notifications-container'),
 );
 
-let hue = 15; // para el input rainbow
-let rainbowColor = `hsl(${hue}, 80%, 70%)`;
 let isDialogOpen = false;
 const collapseButtonHeight = `${btnCollapseToolbar.scrollHeight}px`;
 const toolbarHeight = `${toolbar.scrollHeight}px`;
@@ -63,22 +61,6 @@ const undoAndSetCanvasColor = () => {
   }
 };
 
-const draw = (ev: CanvasEvent) => {
-  const { drawingMode } = canvas;
-
-  canvas.draw(ev);
-
-  if (drawingMode === 'rainbow-brush') {
-    hue += 1;
-    rainbowColor = `hsl(${hue}, 80%, 70%)`;
-    canvas.setColor(rainbowColor);
-  }
-};
-
-const beginDrawing = (ev: CanvasEvent) => {
-  canvas.beginDrawing(ev);
-};
-
 const stopDrawing = () => {
   canvas.stopDrawing();
   addSnapshot(canvas.backgroundColor);
@@ -88,12 +70,11 @@ const fillCanvasOrBeginDrawing = (ev: CanvasEvent) => {
   if (current === btnRoller) {
     canvas.fill();
   } else {
-    beginDrawing(ev);
+    canvas.beginDrawing(ev);
   }
 };
 
 canvas.onBeginDrawing(fillCanvasOrBeginDrawing);
-canvas.onDraw(draw);
 canvas.onStopDrawing(stopDrawing);
 
 let current = btnBrush; // nuestra herramienta activa
@@ -148,7 +129,6 @@ btnEraser.addEventListener('click', selectEraserTool);
 const selectRainbowTool = () => {
   updateCurrent(btnRainbow);
   canvas.changeDrawingMode('rainbow-brush');
-  canvas.setColor(rainbowColor);
 };
 btnRainbow.addEventListener('click', selectRainbowTool);
 
@@ -187,9 +167,9 @@ inputColor.addEventListener('change', () => {
 
 // Tamaño pincel
 inputRange.addEventListener('input', () => {
-  const radius = Number(inputRange.value);
-  canvas.changeRadius(radius);
-  brushSize.innerText = `${radius} px`;
+  const size = Number(inputRange.value);
+  canvas.changeSize(size);
+  brushSize.innerText = `${size} px`;
 });
 
 confirmTopTrap.addEventListener('focus', () => cancelClearBoardButton.focus());
@@ -332,8 +312,12 @@ const keyMaps = {
 
 type KeyMapKeys = keyof typeof keyMaps;
 
+let isClickPressed = false;
+
+window.addEventListener('mousedown', () => (isClickPressed = true));
+window.addEventListener('mouseup', () => (isClickPressed = false));
 window.addEventListener('keydown', (ev) => {
-  if (isDialogOpen) {
+  if (isDialogOpen || isClickPressed) {
     return;
   }
 

@@ -1,3 +1,5 @@
+import { ContextObject } from './types/index';
+
 type CanvasState = {
   canvasContext: {
     backgroundColor: string;
@@ -7,12 +9,12 @@ type CanvasState = {
 
 export class Snapshot {
   private history: Array<CanvasState>;
-  private context: CanvasRenderingContext2D;
+  private context: ContextObject;
   private width: number;
   private height: number;
   private initialSnapshot: ImageData | null;
 
-  constructor(ctx: CanvasRenderingContext2D, width: number, height: number) {
+  constructor(ctx: ContextObject, width: number, height: number) {
     this.context = ctx;
     this.history = [];
     this.width = width;
@@ -22,7 +24,7 @@ export class Snapshot {
   }
 
   private addInitialSnapshot = () => {
-    const initialSnapshot = this.context.getImageData(
+    const initialSnapshot = this.context.main.getImageData(
       0,
       0,
       this.width,
@@ -41,7 +43,7 @@ export class Snapshot {
   addSnapshot = (bgColor: string) => {
     this.history.push({
       canvasContext: { backgroundColor: bgColor },
-      snapshot: this.context.getImageData(0, 0, this.width, this.height),
+      snapshot: this.context.main.getImageData(0, 0, this.width, this.height),
     });
   };
 
@@ -55,7 +57,8 @@ export class Snapshot {
     if (this.history.length > 1) {
       this.history.pop()!;
       const previousState = this.history[this.history.length - 1];
-      this.context.putImageData(previousState.snapshot, 0, 0);
+      this.context.main.putImageData(previousState.snapshot, 0, 0);
+      this.context.memory.putImageData(previousState.snapshot, 0, 0);
 
       return {
         canvasContext: previousState.canvasContext,
