@@ -57,6 +57,8 @@ export class Canvas {
     this.context.lineCap = 'round';
     this.context.lineJoin = 'round';
 
+    this.fill(this.backgroundColor);
+
     window.addEventListener('mousemove', ({ x, y }) => {
       const coords: Coordinate = { x, y };
 
