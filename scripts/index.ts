@@ -3,6 +3,7 @@ import { Snapshot } from './history.js';
 import { $, $$, getRandomColor } from './utils.js';
 import { Canvas } from './canvas.js';
 import { NotificationContainer } from './notification.js';
+import { ConfirmDialog } from './confirm-dialog.js';
 
 const root = $(':root');
 
@@ -20,10 +21,6 @@ const btnRandom = $('#btn-random');
 const btnClear = $('#btn-clear');
 const [inputColor, inputRange] = $$<HTMLInputElement>('input');
 const brushSize = $('.brush-size');
-const confirmOverlay = $('#confirm-overlay');
-const confirmDialog = $('#confirm');
-const [clearBoardButton, cancelClearBoardButton] = confirmDialog.querySelectorAll('button');
-const [confirmTopTrap, confirmBottomTrap] = confirmDialog.querySelectorAll('[id^=confirm-focus-trap]');
 const btnInfo = $('#btn-info');
 const btnClose = $('#btn-close');
 const overlay = $('#modal-overlay');
@@ -181,47 +178,24 @@ inputRange.addEventListener('input', () => {
   brushSize.innerText = `${size} px`;
 });
 
-confirmTopTrap.addEventListener('focus', () => cancelClearBoardButton.focus());
-confirmBottomTrap.addEventListener('focus', () => clearBoardButton.focus());
-
 const showConfirmDialog = () => {
   isDialogOpen = true;
-  toolbar.setAttribute('inert', 'true');
-  confirmOverlay.classList.add('visible');
-  confirmDialog.classList.add('visible');
-  clearBoardButton.focus();
-  confirmOverlay.addEventListener('keydown', hideConfirmDialogOnEsc);
+  confirmDialog.show();
 };
 
-const hideConfirmDialog = () => {
-  isDialogOpen = false;
-  toolbar.removeAttribute('inert');
-  confirmOverlay.classList.remove('visible');
-  confirmDialog.classList.remove('visible');
-
-  // Restore focus to the button that opened the confirm dialog
-  btnClear.focus();
-  confirmOverlay.removeEventListener('keydown', hideConfirmDialogOnEsc);
-};
-
-const hideConfirmDialogOnEsc = (ev: KeyboardEvent) => {
-  if (ev.key === 'Escape') {
-    hideConfirmDialog();
-  }
-};
+const hideConfirmDialog = () => (isDialogOpen = false);
 
 const clearBoard = () => {
+  isDialogOpen = false;
   canvas.fill('white');
   if (canvas.drawingMode === 'eraser') {
     canvas.setColor(canvas.backgroundColor);
   }
-  hideConfirmDialog();
   clearHistory();
 };
 
+const confirmDialog = new ConfirmDialog(clearBoard, hideConfirmDialog);
 btnClear.addEventListener('click', showConfirmDialog);
-clearBoardButton.addEventListener('click', clearBoard);
-cancelClearBoardButton.addEventListener('click', hideConfirmDialog);
 
 /* Managing Focus Trap inside the modal */
 const [topFocusTrap, bottomFocusTrap] = modal.querySelectorAll('[id^=modal-focus-trap]');
