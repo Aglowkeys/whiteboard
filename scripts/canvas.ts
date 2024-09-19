@@ -57,7 +57,7 @@ export class Canvas {
 
     this.fill(this.backgroundColor);
 
-    window.addEventListener('mousemove', ({ x, y }) => {
+    document.body.addEventListener('mousemove', ({ x, y }) => {
       const coords: Coordinate = { x, y };
 
       if (this.drawingMode === 'rainbow-brush') {
@@ -67,11 +67,11 @@ export class Canvas {
       this.currentCoords = coords;
     });
 
-    window.addEventListener('touchstart', () => {
+    document.body.addEventListener('touchstart', () => {
       this.currentCoords = null;
     });
 
-    window.addEventListener(
+    document.body.addEventListener(
       'touchmove',
       (ev) => {
         if (ev.target === this.canvas) {

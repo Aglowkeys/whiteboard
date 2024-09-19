@@ -29,6 +29,7 @@ const allButtonsInsideToolbar = toolbar.querySelectorAll<HTMLElement>('button, a
 const notificationsContainer = new NotificationContainer($('#notifications-container'));
 
 let isDialogOpen = false;
+let isDrawing = false;
 const collapseButtonHeight = `${btnCollapseToolbar.scrollHeight}px`;
 const toolbarHeight = `${toolbar.scrollHeight}px`;
 toolbar.style.height = toolbarHeight;
@@ -50,6 +51,7 @@ const undoAndSetCanvasColor = () => {
 };
 
 const stopDrawing = () => {
+  isDrawing = false;
   canvas.stopDrawing();
 
   toolbar.classList.remove('is-drawing');
@@ -65,6 +67,7 @@ const fillCanvasOrBeginDrawing = (ev: CanvasEvent) => {
   if (current === btnRoller) {
     canvas.fill();
   } else {
+    isDrawing = true;
     toolbar.classList.add('is-drawing');
 
     // To prevent pressing tab and changing tools while drawing
@@ -263,4 +266,10 @@ window.addEventListener('keydown', (ev) => {
 window.addEventListener('mousemove', ({ x, y }) => {
   pointer.style.top = y + 'px';
   pointer.style.left = x + 'px';
+});
+
+document.body.addEventListener('mouseleave', () => {
+  if (isDrawing) {
+    stopDrawing();
+  }
 });
