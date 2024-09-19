@@ -1,3 +1,4 @@
+import type { CanvasInstance } from './canvas';
 import { ContextObject } from './types/index';
 
 type CanvasState = {
@@ -14,22 +15,17 @@ export class Snapshot {
   private height: number;
   private initialSnapshot: ImageData | null;
 
-  constructor(ctx: ContextObject, width: number, height: number) {
-    this.context = ctx;
+  constructor(canvas: CanvasInstance) {
+    this.context = canvas.getContext();
     this.history = [];
-    this.width = width;
-    this.height = height;
+    this.width = canvas.width;
+    this.height = canvas.height;
     this.initialSnapshot = null;
     this.addInitialSnapshot();
   }
 
   private addInitialSnapshot = () => {
-    const initialSnapshot = this.context.main.getImageData(
-      0,
-      0,
-      this.width,
-      this.height,
-    );
+    const initialSnapshot = this.context.main.getImageData(0, 0, this.width, this.height);
     this.history.push({
       snapshot: initialSnapshot,
       canvasContext: { backgroundColor: 'white' },

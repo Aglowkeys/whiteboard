@@ -254,3 +254,5 @@ export class Canvas {
     this.canvas.addEventListener('touchend', cb);
   }
 }
+
+export type CanvasInstance = InstanceType<typeof Canvas>;
