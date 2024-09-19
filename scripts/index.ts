@@ -35,11 +35,7 @@ const collapseButtonHeight = `${btnCollapseToolbar.scrollHeight}px`;
 const toolbarHeight = `${toolbar.scrollHeight}px`;
 toolbar.style.height = toolbarHeight;
 
-const { addSnapshot, undoLastAction, clearHistory } = new Snapshot(
-  canvas.getContext(),
-  canvas.width,
-  canvas.height,
-);
+const { addSnapshot, undoLastAction, clearHistory } = new Snapshot(canvas);
 
 const undoAndSetCanvasColor = () => {
   const { canvasContext, undoSuccessful } = undoLastAction();
