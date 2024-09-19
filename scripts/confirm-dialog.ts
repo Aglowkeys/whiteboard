@@ -3,48 +3,43 @@ import { $ } from './utils';
 const toolbar = $('#toolbar');
 const overlay = $('#confirm-overlay');
 const dialog = $('#confirm');
+const btnClear = $('#btn-clear');
+
 const [confirmButton, cancelButton] = dialog.querySelectorAll('button');
 const [confirmTopTrap, confirmBottomTrap] = dialog.querySelectorAll('[id^=confirm-focus-trap]');
-const btnClear = $('#btn-clear');
 
 export class ConfirmDialog {
   private onConfirm: () => void;
   private onCancel: () => void;
-  private listeners: {
-    confirmAction: (ev: MouseEvent) => void;
-    hideOnClick: (ev: MouseEvent) => void;
-    hideOnEsc: (ev: KeyboardEvent) => void;
-    manageFocus: (ev: Event) => void;
+  private listeners = {
+    confirmAction: () => {
+      this.onConfirm();
+      this.hide();
+    },
+    hideOnClick: ({ target }: MouseEvent) => {
+      if (target === overlay || target === cancelButton) {
+        this.hide();
+        this.onCancel();
+      }
+    },
+    hideOnEsc: ({ key }: KeyboardEvent) => {
+      if (key === 'Escape') {
+        this.hide();
+        this.onCancel();
+      }
+    },
+    manageFocus: ({ target }: Event) => {
+      if (target === confirmTopTrap) {
+        cancelButton.focus();
+      } else if (target === confirmBottomTrap) {
+        confirmButton.focus();
+      }
+    },
   };
 
   constructor(onConfirm: () => void, onCancel: () => void) {
     this.onConfirm = onConfirm;
     this.onCancel = onCancel;
-    this.listeners = {
-      confirmAction: () => {
-        this.onConfirm();
-        this.hide();
-      },
-      hideOnClick: (ev: MouseEvent) => {
-        if (ev.target === overlay || ev.target === cancelButton) {
-          this.hide();
-          this.onCancel();
-        }
-      },
-      hideOnEsc: (ev: KeyboardEvent) => {
-        if (ev.key === 'Escape') {
-          this.hide();
-          this.onCancel();
-        }
-      },
-      manageFocus: (ev: Event) => {
-        if (ev.target === confirmTopTrap) {
-          cancelButton.focus();
-        } else if (ev.target === confirmBottomTrap) {
-          confirmButton.focus();
-        }
-      },
-    };
   }
 
   show() {
@@ -70,6 +65,9 @@ export class ConfirmDialog {
       'animationend',
       () => {
         overlay.classList.remove('visible', 'hiding');
+
+        // Restore focus to the button that opened the confirm dialog
+        btnClear.focus();
       },
       { once: true },
     );
@@ -80,8 +78,5 @@ export class ConfirmDialog {
     confirmButton.removeEventListener('click', this.listeners.confirmAction);
     cancelButton.removeEventListener('click', this.listeners.hideOnClick);
     overlay.removeEventListener('click', this.listeners.hideOnClick);
-
-    // Restore focus to the button that opened the confirm dialog
-    btnClear.focus();
   }
 }

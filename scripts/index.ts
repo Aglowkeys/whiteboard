@@ -4,6 +4,7 @@ import { $, $$, getRandomColor } from './utils.js';
 import { Canvas } from './canvas.js';
 import { NotificationContainer } from './notification.js';
 import { ConfirmDialog } from './confirm-dialog.js';
+import { InfoDialog } from './info-dialog.js';
 
 const root = $(':root');
 
@@ -23,9 +24,6 @@ const btnClear = $('#btn-clear');
 const [inputColor, inputRange] = $$<HTMLInputElement>('input');
 const brushSize = $('.brush-size');
 const btnInfo = $('#btn-info');
-const btnClose = $('#btn-close');
-const overlay = $('#modal-overlay');
-const modal = $('#modal');
 const btnDownload = $<HTMLAnchorElement>('#btn-download');
 const allButtonsInsideToolbar = toolbar.querySelectorAll<HTMLElement>('button, a, input')!;
 const notificationsContainer = new NotificationContainer($('#notifications-container'));
@@ -196,62 +194,13 @@ const clearBoard = () => {
 const confirmDialog = new ConfirmDialog(clearBoard, hideConfirmDialog);
 btnClear.addEventListener('click', showConfirmDialog);
 
-/* Managing Focus Trap inside the modal */
-const [topFocusTrap, bottomFocusTrap] = modal.querySelectorAll('[id^=modal-focus-trap]');
-const allFocusableElements = modal.querySelectorAll('button, a') as NodeListOf<HTMLElement>;
-const firstFocusableElement = allFocusableElements[0];
-const lastFocusableElement = allFocusableElements[allFocusableElements.length - 1];
-
-const goToFirstFocusableElement = () => firstFocusableElement.focus();
-const goToLastFocusableElement = () => lastFocusableElement.focus();
-
-topFocusTrap.addEventListener('focus', goToLastFocusableElement);
-bottomFocusTrap.addEventListener('focus', goToFirstFocusableElement);
-
 const openModal = () => {
   isDialogOpen = true;
-  toolbar.setAttribute('inert', 'true');
-  overlay.classList.add('visible');
-
-  window.addEventListener('keydown', closeModalOnEsc);
-
-  firstFocusableElement.focus();
+  infoDialog.show();
 };
-
-const closeModal = () => {
-  isDialogOpen = false;
-  toolbar.removeAttribute('inert');
-  overlay.classList.add('hiding');
-
-  overlay.addEventListener(
-    'animationend',
-    () => {
-      overlay.classList.remove('visible', 'hiding');
-    },
-    { once: true },
-  );
-
-  window.removeEventListener('keydown', closeModalOnEsc);
-
-  // Restore focus to the button that opened the modal
-  btnInfo.focus();
-};
-
+const closeModal = () => (isDialogOpen = false);
+const infoDialog = new InfoDialog(closeModal);
 btnInfo.addEventListener('click', openModal);
-
-btnClose.addEventListener('click', closeModal);
-
-overlay.addEventListener('click', (ev) => {
-  if (ev.target === overlay) {
-    closeModal();
-  }
-});
-
-const closeModalOnEsc = (ev: KeyboardEvent) => {
-  if (ev.key === 'Escape') {
-    closeModal();
-  }
-};
 
 //
 // ========== DESCARGAR IMAGEN ==========
