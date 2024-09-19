@@ -78,8 +78,8 @@ export class Canvas {
           ev.preventDefault();
         }
 
-        const { clientX: x, clientY: y, force = 0 } = ev.touches[0];
-        const coords: Coordinate = { x, y, force };
+        const { clientX: x, clientY: y } = ev.touches[0];
+        const coords: Coordinate = { x, y };
 
         if (this.drawingMode === 'rainbow-brush') {
           coords.hue = this.hue++;
@@ -180,10 +180,6 @@ export class Canvas {
     return hue && this.drawingMode === 'rainbow-brush' ? `hsl(${hue}, 80%, 70%)` : this.color;
   }
 
-  private getBrushSize({ force = 0 }: Coordinate) {
-    return this.drawingMode === 'eraser' ? 1 : this.size * (1 + force);
-  }
-
   draw() {
     if (!this.isDrawing || !this.coordinates.length) {
       return;
@@ -193,12 +189,11 @@ export class Canvas {
     const initialCoord = this.coordinates[0];
 
     if (length < 3) {
-      const size = this.getBrushSize(initialCoord);
       this.context.strokeStyle = this.getDrawingColor(initialCoord.hue);
       this.context.fillStyle = this.getDrawingColor(initialCoord.hue);
 
       this.context.beginPath();
-      this.context.arc(initialCoord.x, initialCoord.y, size / 2, 0, Math.PI * 2);
+      this.context.arc(initialCoord.x, initialCoord.y, this.size / 2, 0, Math.PI * 2);
       this.context.closePath();
       this.context.fill();
 
@@ -207,6 +202,7 @@ export class Canvas {
       return;
     }
 
+    this.context.lineWidth = this.size;
     this.context.beginPath();
     this.context.moveTo(initialCoord.x, initialCoord.y);
 
@@ -216,7 +212,6 @@ export class Canvas {
       const avgX = (currentCoord.x + nextCoord.x) / 2;
       const avgY = (currentCoord.y + nextCoord.y) / 2;
 
-      this.context.lineWidth = this.getBrushSize(currentCoord);
       this.context.strokeStyle = this.getDrawingColor(currentCoord.hue);
       this.context.quadraticCurveTo(currentCoord.x, currentCoord.y, avgX, avgY);
       this.context.stroke();
