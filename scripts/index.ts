@@ -14,6 +14,7 @@ const pointer = $('#pointer');
 const toolbar = $('#toolbar');
 const toolsContainer = $('#tools-container');
 const btnCollapseToolbar = $('#btn-collapse');
+const btnCollapseLabel = $('#toolbar-collapse-label');
 const btnBrush = $('#btn-brush');
 const btnEraser = $('#btn-eraser');
 const btnRainbow = $('#btn-rainbow');
@@ -95,10 +96,7 @@ btnCollapseToolbar.addEventListener('click', () => {
   const isCollapsed = toolbar.classList.toggle('toolbar--collapsed');
   toolbar.style.height = isCollapsed ? collapseButtonHeight : toolbarHeight;
 
-  btnCollapseToolbar.setAttribute(
-    'aria-label',
-    `${isCollapsed ? 'Expandir' : 'Contraer'} barra de herramientas`,
-  );
+  btnCollapseLabel.textContent = `${isCollapsed ? 'Expandir' : 'Contraer'} barra de herramientas`;
   toolsContainer.setAttribute('aria-expanded', `${!isCollapsed}`);
   toolbar.style.overflow = 'hidden';
   toolsContainer.style.visibility = 'visible';
