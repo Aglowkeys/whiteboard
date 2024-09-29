@@ -29,7 +29,7 @@
     <aside id="toolbar" class="toolbar">
       <button
         aria-controls="tools-container"
-        aria-label="Contraer barra de herramientas"
+        aria-labelledby="toolbar-collapse-label"
         id="btn-collapse"
         class="btn btn-collapse"
       >
@@ -38,6 +38,8 @@
           <path d="M7 11l5 -5l5 5" />
           <path d="M7 17l5 -5l5 5" />
         </svg>
+
+        <span id="toolbar-collapse-label" hidden>Contraer barra de herramientas</span>
       </button>
 
       <div aria-expanded="true" class="tools-container" id="tools-container">
@@ -176,11 +178,12 @@
       <div class="card modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
         <span tabindex="0" id="modal-focus-trap-top"></span>
 
-        <button aria-label="Cerrar" role="button" class="btn btn-close" id="btn-close">
+        <button aria-labelledby="modal-close-btn-label" role="button" class="btn btn-close" id="btn-close">
           <svg viewBox="0 0 24 24" stroke="currentColor" fill="none">
             <path d="M18 6l-12 12"></path>
             <path d="M6 6l12 12"></path>
           </svg>
+          <span id="modal-close-btn-label" hidden>Cerrar</span>
         </button>
 
         <h2 id="modal-title">Sobre este proyecto</h2>
