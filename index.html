@@ -43,7 +43,7 @@
       </button>
 
       <div aria-expanded="true" class="tools-container" id="tools-container">
-        <button id="btn-brush" class="btn btn-brush">
+        <button id="btn-brush" class="btn btn-brush" aria-labelledby="brush-label">
           <svg aria-hidden="true" viewBox="0 0 24 24" stroke="currentColor" fill="none">
             <path d="M3 21v-4a4 4 0 1 1 4 4h-4"></path>
             <path d="M21 3a16 16 0 0 0 -12.8 10.2"></path>
@@ -51,10 +51,10 @@
             <path d="M10.6 9a9 9 0 0 1 4.4 4.4"></path>
           </svg>
           <span class="keybinding">1</span>
-          <span class="tooltip">Pincel</span>
+          <span id="brush-label" class="tooltip">Pincel</span>
         </button>
 
-        <button id="btn-eraser" class="btn btn-eraser">
+        <button id="btn-eraser" class="btn btn-eraser" aria-labelledby="eraser-label">
           <svg aria-hidden="true" viewBox="0 0 24 24" stroke="currentColor" fill="none">
             <path
               d="M19 20h-10.5l-4.21 -4.3a1 1 0 0 1 0 -1.41l10 -10a1 1 0 0 1 1.41 0l5 5a1 1 0 0 1 0 1.41l-9.2 9.3"
@@ -62,20 +62,20 @@
             <path d="M18 13.3l-6.3 -6.3"></path>
           </svg>
           <span class="keybinding">2</span>
-          <span class="tooltip">Borrador</span>
+          <span id="eraser-label" class="tooltip">Borrador</span>
         </button>
 
-        <button id="btn-rainbow" class="btn btn-rainbow">
+        <button id="btn-rainbow" class="btn btn-rainbow" aria-labelledby="rainbow-label">
           <svg aria-hidden="true" viewBox="0 0 24 24" stroke="currentColor" fill="none">
             <path d="M22 17c0 -5.523 -4.477 -10 -10 -10s-10 4.477 -10 10"></path>
             <path d="M18 17a6 6 0 1 0 -12 0"></path>
             <path d="M14 17a2 2 0 1 0 -4 0"></path>
           </svg>
           <span class="keybinding">3</span>
-          <span class="tooltip">Pincel arcoíris</span>
+          <span id="rainbow-label" class="tooltip">Pincel arcoíris</span>
         </button>
 
-        <button id="btn-roller" class="btn btn-roller">
+        <button id="btn-roller" class="btn btn-roller" aria-labelledby="roller-label">
           <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor">
             <path stroke="none" d="M0 0h24v24H0z" fill="none" />
             <path d="M5 3m0 2a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v2a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2z" />
@@ -83,20 +83,20 @@
             <path d="M10 15m0 1a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1z" />
           </svg>
           <span class="keybinding">4</span>
-          <span class="tooltip">Cubrir lienzo</span>
+          <span id="roller-label" class="tooltip">Cubrir lienzo</span>
         </button>
 
-        <button id="btn-undo" class="btn">
+        <button id="btn-undo" class="btn" aria-labelledby="undo-label">
           <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor">
             <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
             <path d="M9 11l-4 4l4 4m-4 -4h11a4 4 0 0 0 0 -8h-1"></path>
           </svg>
-          <span class="tooltip">Deshacer</span>
+          <span id="undo-label" class="tooltip">Deshacer</span>
         </button>
 
         <span aria-hidden="true" class="divider"></span>
 
-        <button id="btn-random" class="btn btn-random">
+        <button id="btn-random" class="btn btn-random" aria-labelledby="random-label">
           <svg aria-hidden="true" viewBox="0 0 24 24" stroke="currentColor" fill="none">
             <path
               d="M18.064 10.877l-4.89 -7.26c-.42 -.625 -1.287 -.803 -1.936 -.397a1.376 1.376 0 0 0 -.41 .397l-4.893 7.26c-1.695 2.838 -1.035 6.441 1.567 8.546c2.203 1.782 5.259 2.056 7.723 .82"
@@ -105,11 +105,17 @@
             <path d="M19 19a2.003 2.003 0 0 0 .914 -3.782a1.98 1.98 0 0 0 -2.414 .483"></path>
           </svg>
           <span class="keybinding">5</span>
-          <span class="tooltip">Color al azar</span>
+          <span id="random-label" class="tooltip">Color al azar</span>
         </button>
 
         <div class="input-container btn">
-          <input id="btn-color" class="input-color" type="color" autocomplete="off" />
+          <input
+            id="btn-color"
+            class="input-color"
+            type="color"
+            autocomplete="off"
+            aria-labelledby="color-label"
+          />
           <svg aria-hidden="true" viewBox="0 0 24 24" stroke="currentColor" fill="none">
             <path
               d="M12 21a9 9 0 0 1 0 -18c4.97 0 9 3.582 9 8c0 1.06 -.474 2.078 -1.318 2.828c-.844 .75 -1.989 1.172 -3.182 1.172h-2.5a2 2 0 0 0 -1 3.75a1.3 1.3 0 0 1 -1 2.25"
@@ -119,7 +125,7 @@
             <path d="M16.5 10.5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
           </svg>
           <span class="keybinding">6</span>
-          <span class="tooltip">Seleccionar color</span>
+          <span id="color-label" class="tooltip">Seleccionar color</span>
           <span class="current-color" aria-hidden="true"></span>
         </div>
 
@@ -132,24 +138,33 @@
             class="input-range"
             value="5"
             autocomplete="off"
+            aria-labelledby="size-label"
+            aria-describedby="size-description"
           />
           <span class="keybinding">7</span>
-          <span class="tooltip">Tamaño del pincel</span>
+          <span id="size-label" class="tooltip">Tamaño del pincel</span>
         </div>
-        <span class="brush-size">5 px</span>
+        <span id="size-description" class="brush-size">5 px</span>
 
         <span aria-hidden="true" class="divider"></span>
 
-        <button id="btn-clear" class="btn btn-clear">
+        <button aria-labelledby="clear-label" id="btn-clear" class="btn btn-clear">
           <svg aria-hidden="true" viewBox="0 0 24 24" stroke="currentColor" fill="none">
             <path d="M14 3v4a1 1 0 0 0 1 1h4"></path>
             <path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z"></path>
           </svg>
           <span class="keybinding">8</span>
-          <span class="tooltip">Nuevo lienzo</span>
+          <span id="clear-label" class="tooltip">Nuevo lienzo</span>
         </button>
 
-        <a href="#" id="btn-download" target="_blank" download="mi-dibujo.png" class="btn btn-download">
+        <a
+          href="#"
+          id="btn-download"
+          target="_blank"
+          download="mi-dibujo.png"
+          class="btn btn-download"
+          aria-labelledby="download-label"
+        >
           <svg aria-hidden="true" viewBox="0 0 24 24" stroke="currentColor" fill="none">
             <path d="M14 3v4a1 1 0 0 0 1 1h4"></path>
             <path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z"></path>
@@ -157,17 +172,17 @@
             <path d="M9.5 14.5l2.5 2.5l2.5 -2.5"></path>
           </svg>
           <span class="keybinding">9</span>
-          <span class="tooltip">Descargar dibujo</span>
+          <span id="download-label" class="tooltip">Descargar dibujo</span>
         </a>
 
-        <button id="btn-info" class="btn btn-info">
+        <button id="btn-info" class="btn btn-info" aria-labelledby="info-label">
           <svg aria-hidden="true" viewBox="0 0 24 24" stroke="currentColor" fill="none">
             <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"></path>
             <path d="M12 9h.01"></path>
             <path d="M11 12h1v4h1"></path>
           </svg>
           <span class="keybinding">0</span>
-          <span class="tooltip">Información</span>
+          <span id="info-label" class="tooltip">Información</span>
         </button>
       </div>
     </aside>
@@ -206,6 +221,7 @@
               target="_blank"
               rel="noopener noreferrer"
               class="btn"
+              aria-labelledby="linkedin-label"
             >
               <svg aria-hidden="true" viewBox="0 0 24 24" stroke="currentColor" fill="none">
                 <path
@@ -217,17 +233,23 @@
                 <path d="M16 16v-3a2 2 0 0 0 -4 0"></path>
               </svg>
             </a>
-            <span>LinkedIn</span>
+            <span id="linkedin-label">LinkedIn</span>
           </li>
           <li>
-            <a href="https://github.com/Aglowkeys/" target="_blank" rel="noopener noreferrer" class="btn">
+            <a
+              href="https://github.com/Aglowkeys/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn"
+              aria-labelledby="github-label"
+            >
               <svg aria-hidden="true" viewBox="0 0 24 24" stroke="currentColor" fill="none">
                 <path
                   d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5"
                 ></path>
               </svg>
             </a>
-            <span>Github</span>
+            <span id="github-label">Github</span>
           </li>
           <li>
             <a
@@ -235,6 +257,7 @@
               target="_blank"
               rel="noopener noreferrer"
               class="btn"
+              aria-labelledby="portfolio-label"
             >
               <svg aria-hidden="true" viewBox="0 0 24 24" stroke="currentColor" fill="none">
                 <path
@@ -245,7 +268,7 @@
                 <path d="M3 13a20 20 0 0 0 18 0"></path>
               </svg>
             </a>
-            <span>Mi portfolio</span>
+            <span id="portfolio-label">Mi portfolio</span>
           </li>
         </ul>
 
